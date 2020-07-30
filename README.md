@@ -39,19 +39,23 @@ RIF tree:
 ### JS
 
  * Landing page
-   * Select Box
+   * Select Box, (fill status per box ?)
    * Edit Card
    * Add Card
  * Test page
    * Show A-Side
    * Enter details for B-Side
    * Show result, proceed
+   * Back to landing
  * Edit page
    * Search for card, by content
-   * Update / Delete card (Id known)
+   * Update / Delete card (Id known) (save & reload)
+   * Back to landing
  * Add a new card
    * Enter A-Side
    * Enter B-Side
+   * Done (save & reload)
+   * Back to landing
 
 Illustration of landing page:
 
