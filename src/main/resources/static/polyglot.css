@@ -1,0 +1,20 @@
+body{
+    background: #505050;
+    -webkit-background-size:cover;
+    -moz-background-size:cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.fill {
+    min-height: 100vh;
+    height: 100%;
+}
+
+.invalid {
+    border-color: #dc3545;
+}
+
+/*.mt-4 {*/
+/*    margin-left: ($spacer * .1) !important;*/
+/*}*/
