@@ -26,6 +26,10 @@ Details for the various layers:
 
 ### REST
 
+RIF tree:
+
+![rif](documentation/polyglot-rif.png)
+
  * Getting a random card of a specific box
  * Updating the box info of an existing card
  * Removing a card
