@@ -38,12 +38,21 @@ RIF tree:
 
 ### JS
 
- * Learn for Box
- * Select Box
- * Show random card
-   * Enter details
-   * See result
-   * Proceed
- * Update a card, ID known
- * Remove a card, ID known
- * Add a new card, Id will be generated.
+ * Landing page
+   * Select Box
+   * Edit Card
+   * Add Card
+ * Test page
+   * Show A-Side
+   * Enter details for B-Side
+   * Show result, proceed
+ * Edit page
+   * Search for card, by content
+   * Update / Delete card (Id known)
+ * Add a new card
+   * Enter A-Side
+   * Enter B-Side
+
+Illustration of landing page:
+
+![landing](documentation/landing.png)
