@@ -30,8 +30,6 @@ RIF tree:
 
 ![rif](documentation/polyglot-rif.png)
 
- * Additionally: **GET** on root node, returns meta info: fill state per level (enabled / disabled for selection)
-
 
 ### JS
 
