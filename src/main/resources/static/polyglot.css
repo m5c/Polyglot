@@ -22,6 +22,11 @@ h1 {
     min-width: 22rem
 }
 
+/* media selector for ipad: */
+/*@media only screen*/
+/*and (min-device-width : 768px)*/
+/*and (max-device-width : 1024px) {*/
+
 /*tailored layout for iphone SE, let container fill out entire screen width*/
 @media screen and (device-aspect-ratio: 40/71) {
     .fill {
