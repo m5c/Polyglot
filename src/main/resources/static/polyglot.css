@@ -7,12 +7,19 @@ body{
 }
 
 .fill {
+    min-width: 28rem;
+    max-width: 52rem;
+    margin: 0 auto;
     min-height: 100vh;
     height: 100%;
 }
 
 .invalid {
     border-color: #dc3545;
+}
+
+input {
+    text-align: center;
 }
 
 /*.mt-4 {*/

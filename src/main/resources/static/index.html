@@ -11,22 +11,33 @@
     <link rel="stylesheet" href="polyglot.css"/>
 </head>
 <body>
-<div id=RowDivWithBackground class="container-fluid">
+<div id=RowDivWithBackground class="container">
+
+    <!-- this is the main div for the white center overlay with reasonable responsiveness-->
     <div class="bg-white fill">
-    <br/>
-    <h1 style="text-align:center">Polyglot</h1>
-    <title>Polyglot</title>
+        <br/>
+        <h1 style="text-align:center">Menu</h1>
+        <title>Polyglot Menu</title>
 
-    <ul class="list-group  justify-content-center  mt-3">
-        <a href="#train1" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-4" id="train1">Niveau 1</a>
-        <a href="#train2" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-1" id="train2">Niveau 2</a>
-        <a href="#train3" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-1" id="train3">Niveau 3</a>
-        <a href="#train4" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-1" id="train4">Niveau 4</a>
-        <a href="#train5" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-1" id="train5">Niveau 5</a>
+        <!--        Main Menu-->
+        <div class="col-sm-4 mx-auto text-center mt-5" style="min-width: 22rem;">
+            <ul class="list-group  justify-content-center  mt-3">
+                <a href="niveau.html?level=1" class="btn btn-outline-primary">Niveau
+                    1</a>
+                <a href="niveau.html?level=2" class="btn btn-outline-primary mt-1">Niveau
+                    2</a>
+                <a href="niveau.html?level=3" class="btn btn-outline-primary mt-1" id="train3">Niveau
+                    3</a>
+                <a href="niveau.html?level=4" class="btn btn-outline-primary mt-1" id="train4">Niveau
+                    4</a>
+                <a href="niveau.html?level=5" class="btn btn-outline-primary mt-1" id="train5">Niveau
+                    5</a>
+                <a href="#add" class="btn btn-outline-primary mt-4" id="add">Add</a>
+                <a href="#edit" class="btn btn-outline-primary mt-1 disabled" id="edit">Edit</a>
+            </ul>
 
-        <a href="#add" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-4" id="add">Add new cards</a>
-        <a href="#edit" class="btn btn-outline-primary col-sm-4 mx-auto text-center mt-1" id="edit">Edit cards</a>
-    </ul>
+
+        </div>
     </div>
 </div>
 </body>
