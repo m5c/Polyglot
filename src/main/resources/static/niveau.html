@@ -7,24 +7,25 @@
     <script src="jquery.min.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <link rel="stylesheet" href="polyglot.css"/>
+    <script type="text/javascript" src="niveau.js"></script>
 </head>
-<body>
+<body onload="setTitle();registerEntryHandler()">
 <div id=RowDivWithBackground class="container">
 
     <!-- this is the main div for the white center overlay with reasonable responsiveness-->
     <div class="bg-white fill">
         <br/>
-        <h1 style="text-align:center">Niveau</h1>
+        <h1  id="title" style="text-align:center">Niveau</h1>
         <title>Niveau</title>
 
         <!--        Test your knowledge for a card-->
         <div class="col-sm-4 mx-auto text-center mt-5" style="min-width: 26rem;">
 
-            <div class="card">
+            <div class="card wobble-hor-bottom">
                 <div class="card-body">
                     <div id="lang1">lang1</div>
                     <div class="form-group mt-4" id="lang2">
-                        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                        <input type="text" class="form-control" id="userResponseField" aria-describedby="emailHelp">
                     </div>
                 </div>
             </div>
