@@ -30,11 +30,8 @@ RIF tree:
 
 ![rif](documentation/polyglot-rif.png)
 
- * Getting a random card of a specific box
- * Updating the box info of an existing card
- * Removing a card
- * Adding a new card
- * Updating the details of a card
+ * Additionally: **GET** on root node, returns meta info: fill state per level (enabled / disabled for selection)
+
 
 ### JS
 
