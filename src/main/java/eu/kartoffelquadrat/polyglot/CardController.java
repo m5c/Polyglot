@@ -1,4 +1,4 @@
-package eu.kartoffelquadrat.polyglot.backend;
+package eu.kartoffelquadrat.polyglot;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.*;
  * @Author Maximilian Schiedermeier, Github: kartoffelquadrat
  */
 @RestController
-@RequestMapping(path = "/polyglot") // This means URL's start with /polyglot
+@RequestMapping
 public class CardController {
 
     @Autowired
@@ -21,12 +21,11 @@ public class CardController {
 
     /**
      * Retrieve meta-info for all cards
-     *
+     * <p>
      * curl -X GET http://127.0.0.1:8080/polyglot/api
      */
     @GetMapping(path = "/api")
-    public @ResponseBody
-    int[] getFillState() {
+    public int[] getFillState() {
 
         // Look up how many words are stored per box. The DB has five boxes, starting at index 0.
         int[] fillState = new int[5];
@@ -42,8 +41,7 @@ public class CardController {
      * Retrieve all saved cards, having a specific substring, from the DB ---NOT YET ENABLED---
      */
     @GetMapping(path = "/cards")
-    public @ResponseBody
-    Iterable<Card> getAllCards() {
+    public Iterable<Card> getAllCards() {
 
         return cardRepository.findAll();
     }
@@ -69,7 +67,7 @@ public class CardController {
 
     /**
      * Get details of a random card
-     *
+     * <p>
      * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
      */
     @GetMapping("/cards/random")

@@ -7,10 +7,11 @@
 
     <meta charset="UTF-8">
     <script src="jquery.min.js"></script>
+    <script src="menu.js"></script>
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <link rel="stylesheet" href="polyglot.css"/>
 </head>
-<body>
+<body onload="showFillState()">
 <div id=RowDivWithBackground class="container">
 
     <!-- this is the main div for the white center overlay with reasonable responsiveness -->
@@ -22,15 +23,15 @@
         <!-- Main Menu -->
         <div class="col-sm-4 mx-auto text-center mt-5 payload">
             <ul class="list-group  justify-content-center  mt-3">
-                <a href="niveau.html?level=1" class="btn btn-outline-primary">Niveau
+                <a id="niveau0" href="niveau.html?level=1" class="btn btn-outline-primary">Niveau
                     1</a>
-                <a href="niveau.html?level=2" class="btn btn-outline-primary mt-1">Niveau
+                <a id="niveau1" href="niveau.html?level=2" class="btn btn-outline-primary mt-1">Niveau
                     2</a>
-                <a href="niveau.html?level=3" class="btn btn-outline-primary mt-1" id="train3">Niveau
+                <a id="niveau2" href="niveau.html?level=3" class="btn btn-outline-primary mt-1" id="train3">Niveau
                     3</a>
-                <a href="niveau.html?level=4" class="btn btn-outline-primary mt-1" id="train4">Niveau
+                <a id="niveau3" href="niveau.html?level=4" class="btn btn-outline-primary mt-1" id="train4">Niveau
                     4</a>
-                <a href="niveau.html?level=5" class="btn btn-outline-primary mt-1" id="train5">Niveau
+                <a id="niveau4" href="niveau.html?level=5" class="btn btn-outline-primary mt-1" id="train5">Niveau
                     5</a>
                 <a href="add.html" class="btn btn-outline-primary mt-4" id="add">Add</a>
                 <a href="edit.html" class="btn btn-outline-primary mt-1 disabled" id="edit">Edit</a>
