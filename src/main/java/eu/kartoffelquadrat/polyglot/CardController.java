@@ -45,18 +45,21 @@ public class CardController {
 
         return cardRepository.findAll();
     }
-    
+
 
     /**
      * Card id is generated -> not an idempotent resource. That means cards should be created with a POST on the parent
      * collection rather than with a PUT on the card-id.
+     *
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards --data '{"french":"La grenouille","german":"Der Frosch"}'
      */
-    @PostMapping(path = "/cards")
-    public void addCard() {
+    @PostMapping(path = "/cards", consumes = "application/json; charset=utf-8")
+    public void addCard(@RequestBody CardStub cardStub) {
 
+        // New card has to created, for consistent ID to be generated.
         Card card = new Card();
-        card.setFrench("L'amour (f)");
-        card.setGerman("Die Liebe");
+        card.setFrench(cardStub.getFrench());
+        card.setGerman(cardStub.getGerman());
         card.setBox(0);
         cardRepository.save(card);
     }
@@ -91,7 +94,7 @@ public class CardController {
     /**
      * Update details of a specific card, identified by id.
      *
-     * curl -X POST http://127.0.0.1:8080/polyglot/cards/3 --data '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards/3 --data '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
      */
     @PostMapping(path="/cards/{cardId}", consumes = "application/json; charset=utf-8")
     public ResponseEntity<Object> updateCard(@PathVariable int cardId, @RequestBody Card card) {
