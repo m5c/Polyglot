@@ -1,6 +1,9 @@
 package eu.kartoffelquadrat.polyglot;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import java.util.List;
 
 // This will be AUTO IMPLEMENTED by Spring into a Bean called userRepository
 // CRUD refers Create, Read, Update, Delete
@@ -14,6 +17,7 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
     // Retrieve fill state of a specific vocabulary box.
     int countByBox(int box);
 
-//    Iterable<Card> findByFrench(String );
-
+    //Retrieve all ids of cards in specific box
+    @Query(value = "SELECT id FROM card WHERE box=?1", nativeQuery = true)
+    List<Integer> findRandomInBox(int box);
 }
