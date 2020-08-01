@@ -21,10 +21,10 @@ Polyglot stipulates the existence of a database ```polyglot```. Create it with:
 
 The table reflects the class ```Card.java```, having the following columns:
 
- * PK generated id
- * French
- * German
- * Box
+ * PK generated id. Starts at 1. Counts up.
+ * French. String, as it would be noted on a paper card, e.g. ```l'amour (f)```
+ * German. String, as it would be noted on the other side of a paper card,  e.g. ```die Liebe```
+ * Box (index ranging from 0-5). 5 are archived cards that can not be queried.
 
 So ultimately, the **generated** layout will look like this:
 
