@@ -40,7 +40,7 @@ public class CardController {
      * <p>
      * Retrieve all saved cards, having a specific substring, from the DB ---NOT YET ENABLED---
      */
-    @GetMapping(path = "/cards")
+    @GetMapping(path = "/api/cards")
     public Iterable<Card> getAllCards() {
 
         return cardRepository.findAll();
@@ -54,7 +54,7 @@ public class CardController {
      * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '{"french":"La
      * grenouille","german":"Der Frosch"}'
      */
-    @PostMapping(path = "/cards", consumes = "application/json; charset=utf-8")
+    @PostMapping(path = "/api/cards", consumes = "application/json; charset=utf-8")
     public void addCard(@RequestBody CardStub cardStub) {
 
         // New card has to created, for consistent ID to be generated.
@@ -70,7 +70,7 @@ public class CardController {
      * <p>
      * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
      */
-    @GetMapping("/cards/random")
+    @GetMapping("/api/cards/random")
     public ResponseEntity<Object> getRandomCard() {
         if (cardRepository.count() == 0)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No cards available.");
@@ -86,7 +86,7 @@ public class CardController {
      * <p>
      * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42
      */
-    @GetMapping("/cards/{cardId}")
+    @GetMapping("/api/cards/{cardId}")
     public ResponseEntity<Object> getCard(@PathVariable int cardId) {
         if (!cardRepository.existsById(cardId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
@@ -100,7 +100,7 @@ public class CardController {
      * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards/3 --data
      * '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
      */
-    @PostMapping(path = "/cards/{cardId}", consumes = "application/json; charset=utf-8")
+    @PostMapping(path = "/api/cards/{cardId}", consumes = "application/json; charset=utf-8")
     public ResponseEntity<Object> updateCard(@PathVariable int cardId, @RequestBody Card card) {
         if (!cardRepository.existsById(cardId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
@@ -117,7 +117,7 @@ public class CardController {
      * <p>
      * curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42
      */
-    @DeleteMapping("/cards/{cardId}")
+    @DeleteMapping("/api/cards/{cardId}")
     public ResponseEntity<Object> deleteCard(@PathVariable int cardId) {
         if (!cardRepository.existsById(cardId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");

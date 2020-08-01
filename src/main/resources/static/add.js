@@ -24,16 +24,60 @@ function addCard() {
         return;
     }
 
-    // Actually send REST query to API.
-    // ...
+    // Actually buikd a json for the new card and send REST query to API.
+    //let card = {"french":$('#firstField').val(),"german":$('#secondField').val()};
+
+    let card = {"french":"Maex","german":"asdfasdf"};
+    postCard(card);
+    console.log(card);
+
+    //provide visual feedback for success
+    puff();
+
+    //clear the fields
+    $('#firstField').val('');
+    $('#secondField').val('');
+
+    //focus first field again
+    $('#firstField').focus();
 }
 
 async function shake() {
-    $('#card').addClass("wobble-hor-bottom");
+    $('#card').addClass("shake-horizontal");
     await sleep(800);
-    $('#card').removeClass("wobble-hor-bottom");
+    $('#card').removeClass("shake-horizontal");
+}
+
+async function puff() {
+    $('#card').addClass("puff-in-center");
+    await sleep(300);
+    $('#card').removeClass("puff-in-center");
 }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function postCard(card)
+{
+    const headers = new Headers();
+    const body = JSON.stringify(card)
+    headers.append('Content-Type', 'application/json');
+
+    const init = {
+        method: 'POST',
+        headers,
+        body
+    };
+
+    fetch('/polyglot/api/cards', init)
+        .then((response) => {
+            return response.json(); // or .text() or .blob() ...
+        })
+        .then((text) => {
+            // text is the response body
+        })
+        .catch((e) => {
+            // error in e.message
+        });
 }
