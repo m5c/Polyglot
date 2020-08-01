@@ -17,7 +17,7 @@ public interface CardRepository extends JpaRepository<Card, Integer> {
     // Retrieve fill state of a specific vocabulary box.
     int countByBox(int box);
 
-    //Retrieve all ids of cards in specific box
+    //Retrieve all ids of cards in a specific box => More efficient than retrieving all cards and filtering later.
     @Query(value = "SELECT id FROM card WHERE box=?1", nativeQuery = true)
     List<Integer> findRandomInBox(int box);
 }

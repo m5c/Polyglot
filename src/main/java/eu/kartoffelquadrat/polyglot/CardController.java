@@ -64,9 +64,8 @@ public class CardController {
      * Get details of a random card
      */
     @GetMapping("/cards/random")
-    public ResponseEntity<Object> getRandomCard()
-    {
-        if(cardRepository.count()==0)
+    public ResponseEntity<Object> getRandomCard() {
+        if (cardRepository.count() == 0)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No cards available.");
 
         // Minor flaw: Cards of almost empty boxes are retrieved with higher probability, compared to fuller boxes.
@@ -75,21 +74,38 @@ public class CardController {
         return ResponseEntity.ok().body(cardRepository.findById(randomCardIdOfRandomBox));
     }
 
+    /**
+     * Get details of a specific card, identified by id.
+     *
+     * curl -X GET http://127.0.0.1:8080/polyglot/cards/42
+     */
+    @GetMapping("/cards/{cardId}")
+    public ResponseEntity<Object> getCard(@PathVariable int cardId) {
+        if (cardRepository.count() == 0)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No cards available.");
+
+        if (!cardRepository.existsById(cardId))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
+
+        return ResponseEntity.ok().body(cardRepository.findById(cardId));
+    }
+
 
     /**
      * Returns the index of a random, non-empty box.
+     *
      * @return
      */
-    private int getRandomNonEmptyBox(){
+    private int getRandomNonEmptyBox() {
 
-        if(cardRepository.count()==0)
+        if (cardRepository.count() == 0)
             throw new RuntimeException("Cannot retrieve random non-empty box, when all boxes are empty");
 
         // Build a collection with the indexes of all non-empty boxes.
         List<Integer> nonEmptyBoxes = new LinkedList<>();
         int[] fillState = getFillState();
         for (int i = 0; i < fillState.length; i++) {
-            if(fillState[i] > 0)
+            if (fillState[i] > 0)
                 nonEmptyBoxes.add(i);
         }
 
@@ -97,8 +113,7 @@ public class CardController {
         return randomListElement(nonEmptyBoxes);
     }
 
-    private int randomListElement(List<Integer> list)
-    {
+    private int randomListElement(List<Integer> list) {
         return list.get(new Random().nextInt(list.size()));
     }
 
