@@ -11,6 +11,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
  */
 public interface CardRepository extends JpaRepository<Card, Integer> {
 
+    // Retrieve fill state of a specific vocabulary box.
+    int countByBox(int box);
+
 //    Iterable<Card> findByFrench(String );
 
 }

@@ -26,6 +26,18 @@ The table reflects the class ```Card.java```, having the following columns:
  * German
  * Box
 
+So ultimately, the **generated** layout will look like this:
+
+```SQL
+mysql> SELECT * FROM card;
++----+-------------+-----------+-----+
+| id | french      | german    | box |
++----+-------------+-----------+-----+
+|  1 | L'amour (f) | Die Liebe |   0 |
++----+-------------+-----------+-----+
+1 row in set (0.00 sec)
+```
+
 ### REST
 
 RIF tree:
