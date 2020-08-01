@@ -45,6 +45,7 @@ public class CardController {
 
         return cardRepository.findAll();
     }
+    
 
     /**
      * Card id is generated -> not an idempotent resource. That means cards should be created with a POST on the parent
@@ -81,13 +82,41 @@ public class CardController {
      */
     @GetMapping("/cards/{cardId}")
     public ResponseEntity<Object> getCard(@PathVariable int cardId) {
-        if (cardRepository.count() == 0)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No cards available.");
-
         if (!cardRepository.existsById(cardId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
 
         return ResponseEntity.ok().body(cardRepository.findById(cardId));
+    }
+
+    /**
+     * Update details of a specific card, identified by id.
+     *
+     * curl -X POST http://127.0.0.1:8080/polyglot/cards/3 --data '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
+     */
+    @PostMapping(path="/cards/{cardId}", consumes = "application/json; charset=utf-8")
+    public ResponseEntity<Object> updateCard(@PathVariable int cardId, @RequestBody Card card) {
+        if (!cardRepository.existsById(cardId))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
+
+        if(cardId != card.getId())
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Card id mismatch. Modifications rejected.");
+
+        cardRepository.save(card);
+        return ResponseEntity.ok().body("");
+    }
+
+    /**
+     * Get details of a specific card, identified by id.
+     *
+     * curl -X DELETE http://127.0.0.1:8080/polyglot/cards/42
+     */
+    @DeleteMapping("/cards/{cardId}")
+    public ResponseEntity<Object> deleteCard(@PathVariable int cardId) {
+        if (!cardRepository.existsById(cardId))
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
+
+        cardRepository.deleteById(cardId);
+        return ResponseEntity.ok().body("");
     }
 
 
