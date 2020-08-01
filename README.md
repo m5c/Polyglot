@@ -16,13 +16,15 @@ Details for the various layers:
 
 ### SQL
 
- * TABLE card:
-   * PK generated id
-   * Lang1
-   * Lang2
-   * Box
-   * Lang1content
-   * Lang2content
+Polyglot stipulates the existence of a database ```polyglot```. Create it with:  
+```CREATE DATABASE polyglot;```
+
+The table reflects the class ```Card.java```, having the following columns:
+
+ * PK generated id
+ * French
+ * German
+ * Box
 
 ### REST
 

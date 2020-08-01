@@ -11,23 +11,6 @@ public class CardController {
     private CardRepository cardRepository;
 
     /**
-     * NOTE: POST requests must encode RequestParameters as form payload => curl: -d
-     * curl localhost:8080/dbdemo/users -d name=Maex -d email=maex@kartoffelquadrat.eu
-     * @ResponseBody means the returned String is the response, not a view name
-     */
-    @PostMapping(path = "/users")
-    public @ResponseBody
-    String addNewUser(@RequestParam String name
-            , @RequestParam String email) {
-
-//        User n = new User();
-//        n.setName(name);
-//        n.setEmail(email);
-//        userRepository.save(n);
-        return "Saved";
-    }
-
-    /**
      * Binds to either of the following
      * curl -X GET localhost:8080/dbdemo/users
      * curl -X GET localhost:8080/dbdemo/users?name=Maex
