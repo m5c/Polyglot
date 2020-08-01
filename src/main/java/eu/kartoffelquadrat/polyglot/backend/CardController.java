@@ -1,4 +1,4 @@
-package eu.kartoffelquadrat.polyglot;
+package eu.kartoffelquadrat.polyglot.backend;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,7 @@ import java.util.*;
  * @Author Maximilian Schiedermeier, Github: kartoffelquadrat
  */
 @RestController
-@RequestMapping(path = "/polyglot") // This means URL's start with /dbdemo
+@RequestMapping(path = "/polyglot/api") // This means URL's start with /dbdemo
 public class CardController {
 
     @Autowired
@@ -50,8 +50,9 @@ public class CardController {
     /**
      * Card id is generated -> not an idempotent resource. That means cards should be created with a POST on the parent
      * collection rather than with a PUT on the card-id.
-     *
-     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards --data '{"french":"La grenouille","german":"Der Frosch"}'
+     * <p>
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards --data '{"french":"La
+     * grenouille","german":"Der Frosch"}'
      */
     @PostMapping(path = "/cards", consumes = "application/json; charset=utf-8")
     public void addCard(@RequestBody CardStub cardStub) {
@@ -80,7 +81,7 @@ public class CardController {
 
     /**
      * Get details of a specific card, identified by id.
-     *
+     * <p>
      * curl -X GET http://127.0.0.1:8080/polyglot/cards/42
      */
     @GetMapping("/cards/{cardId}")
@@ -93,15 +94,16 @@ public class CardController {
 
     /**
      * Update details of a specific card, identified by id.
-     *
-     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards/3 --data '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
+     * <p>
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards/3 --data
+     * '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
      */
-    @PostMapping(path="/cards/{cardId}", consumes = "application/json; charset=utf-8")
+    @PostMapping(path = "/cards/{cardId}", consumes = "application/json; charset=utf-8")
     public ResponseEntity<Object> updateCard(@PathVariable int cardId, @RequestBody Card card) {
         if (!cardRepository.existsById(cardId))
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Requested card not found.");
 
-        if(cardId != card.getId())
+        if (cardId != card.getId())
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Card id mismatch. Modifications rejected.");
 
         cardRepository.save(card);
@@ -110,7 +112,7 @@ public class CardController {
 
     /**
      * Get details of a specific card, identified by id.
-     *
+     * <p>
      * curl -X DELETE http://127.0.0.1:8080/polyglot/cards/42
      */
     @DeleteMapping("/cards/{cardId}")

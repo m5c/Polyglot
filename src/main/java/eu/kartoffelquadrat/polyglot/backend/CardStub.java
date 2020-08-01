@@ -1,4 +1,4 @@
-package eu.kartoffelquadrat.polyglot;
+package eu.kartoffelquadrat.polyglot.backend;
 
 /**
  * Input form data when a new card is created. No id or box involved.

@@ -44,6 +44,7 @@ RIF tree:
 
 ![rif](documentation/polyglot-rif.png)
 
+ > Note: ```/api``` is common prequel to all REST calls, for clear distinction to the web-ui.
 
 ### JS
 

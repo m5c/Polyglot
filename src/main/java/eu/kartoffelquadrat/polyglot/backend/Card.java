@@ -1,4 +1,4 @@
-package eu.kartoffelquadrat.polyglot;
+package eu.kartoffelquadrat.polyglot.backend;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
