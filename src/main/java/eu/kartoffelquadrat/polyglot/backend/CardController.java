@@ -13,7 +13,7 @@ import java.util.*;
  * @Author Maximilian Schiedermeier, Github: kartoffelquadrat
  */
 @RestController
-@RequestMapping(path = "/polyglot") // This means URL's start with /dbdemo
+@RequestMapping(path = "/polyglot") // This means URL's start with /polyglot
 public class CardController {
 
     @Autowired

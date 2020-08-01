@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-@RequestMapping(path = "/polyglot")
 public class MenuController {
 
-    @RequestMapping(method = RequestMethod.GET, value = "/menu")
+    // TODO: find out why the mapping does not work! => always maps to "http://127.0.0.1:8080/"
+    @RequestMapping(method = RequestMethod.GET, value = "/polyglot/")
     public String index() {
         return "index.html";
     }
