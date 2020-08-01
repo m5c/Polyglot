@@ -13,7 +13,7 @@ import java.util.*;
  * @Author Maximilian Schiedermeier, Github: kartoffelquadrat
  */
 @RestController
-@RequestMapping(path = "/polyglot/api") // This means URL's start with /dbdemo
+@RequestMapping(path = "/polyglot") // This means URL's start with /dbdemo
 public class CardController {
 
     @Autowired
@@ -21,8 +21,10 @@ public class CardController {
 
     /**
      * Retrieve meta-info for all cards
+     *
+     * curl -X GET http://127.0.0.1:8080/polyglot/api
      */
-    @GetMapping(path = "/")
+    @GetMapping(path = "/api")
     public @ResponseBody
     int[] getFillState() {
 
@@ -35,7 +37,7 @@ public class CardController {
     }
 
     /**
-     * Retrieve all saved cards from DB: curl -X GET http://127.0.0.1:8080/polyglot/cards
+     * Retrieve all saved cards from DB: curl -X GET http://127.0.0.1:8080/polyglot/api/cards
      * <p>
      * Retrieve all saved cards, having a specific substring, from the DB ---NOT YET ENABLED---
      */
@@ -51,7 +53,7 @@ public class CardController {
      * Card id is generated -> not an idempotent resource. That means cards should be created with a POST on the parent
      * collection rather than with a PUT on the card-id.
      * <p>
-     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards --data '{"french":"La
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '{"french":"La
      * grenouille","german":"Der Frosch"}'
      */
     @PostMapping(path = "/cards", consumes = "application/json; charset=utf-8")
@@ -67,6 +69,8 @@ public class CardController {
 
     /**
      * Get details of a random card
+     *
+     * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
      */
     @GetMapping("/cards/random")
     public ResponseEntity<Object> getRandomCard() {
@@ -82,7 +86,7 @@ public class CardController {
     /**
      * Get details of a specific card, identified by id.
      * <p>
-     * curl -X GET http://127.0.0.1:8080/polyglot/cards/42
+     * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42
      */
     @GetMapping("/cards/{cardId}")
     public ResponseEntity<Object> getCard(@PathVariable int cardId) {
@@ -95,7 +99,7 @@ public class CardController {
     /**
      * Update details of a specific card, identified by id.
      * <p>
-     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/cards/3 --data
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards/3 --data
      * '{"id":3,"french":"Lamour (f)","german":"Die Liebe","box":3}'
      */
     @PostMapping(path = "/cards/{cardId}", consumes = "application/json; charset=utf-8")
@@ -113,7 +117,7 @@ public class CardController {
     /**
      * Get details of a specific card, identified by id.
      * <p>
-     * curl -X DELETE http://127.0.0.1:8080/polyglot/cards/42
+     * curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42
      */
     @DeleteMapping("/cards/{cardId}")
     public ResponseEntity<Object> deleteCard(@PathVariable int cardId) {
