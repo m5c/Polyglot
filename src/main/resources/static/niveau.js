@@ -43,3 +43,22 @@ function getUrlParameter(sParam) {
         }
     }
 }
+
+async function loadCard() {
+
+    // load a random card
+    let level = getUrlParameter('level')-1;
+    let card = await getData('/polyglot/api/cards/random?level='+level);
+    console.log(card);
+
+    // display the german part, focus on the french part
+    $('#secondField').val(card['german']);
+    $('#firstField').focus();
+
+}
+
+
+async function getData(url) {
+    const response = await fetch(url);
+    return response.json()
+}

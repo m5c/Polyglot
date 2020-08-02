@@ -71,14 +71,22 @@ public class CardController {
      * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
      */
     @GetMapping("/api/cards/random")
-    public ResponseEntity<Object> getRandomCard() {
+    public ResponseEntity<Object> getRandomCard(@RequestParam(required = false) Integer level) {
         if (cardRepository.count() == 0)
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("No cards available.");
 
+        // if box was specified, get a random card of that box. Otherwise pick a random available box first.
+        if (level == null) {
+            level = getRandomNonEmptyBox();
+        } else {
+            if(getFillState()[level] == 0)
+                return ResponseEntity.badRequest().body("Selected level currently holds no cards.");
+        }
+
         // Minor flaw: Cards of almost empty boxes are retrieved with higher probability, compared to fuller boxes.
-        List<Integer> cardIdsInBox = cardRepository.findRandomInBox(getRandomNonEmptyBox());
-        int randomCardIdOfRandomBox = randomListElement(cardIdsInBox);
-        return ResponseEntity.ok().body(cardRepository.findById(randomCardIdOfRandomBox));
+        List<Integer> cardIdsInBox = cardRepository.findRandomInBox(level);
+        int randomCardIdOfBox = randomListElement(cardIdsInBox);
+        return ResponseEntity.ok().body(cardRepository.findById(randomCardIdOfBox));
     }
 
     /**

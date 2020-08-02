@@ -2,7 +2,13 @@ function registerAddHandler() {
     //register callback for "add" button
     $('#addButton').on('click', addCard);
 
-    // register same callback for enter on Add User button
+    // register same callback for enter entry fields
+    $('#firstField').keypress(function (event) {
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            addCard();
+        }
+    });
     $('#secondField').keypress(function (event) {
         let keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
@@ -25,9 +31,7 @@ function addCard() {
     }
 
     // Actually buikd a json for the new card and send REST query to API.
-    //let card = {"french":$('#firstField').val(),"german":$('#secondField').val()};
-
-    let card = {"french":"Maex","german":"asdfasdf"};
+    let card = {"french":$('#firstField').val(),"german":$('#secondField').val()};
     postCard(card);
     console.log(card);
 
