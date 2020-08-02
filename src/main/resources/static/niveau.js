@@ -62,7 +62,6 @@ async function acceptAnswer() {
         animateReplace();
         loadCard();
     }
-
 }
 
 /**
@@ -77,14 +76,15 @@ function revealSolution() {
     $('#secondaryButton').text('Mark as known');
 
     // if next was clicked, rank-down card, proceed
-    //location.reload();
+    $('#primaryButton').on('click', function() {rankDownCard(); resetLayout(); loadCard()});
 
     // if override was licked. Treat card as if that would have been the right answer
-    // override...
+    $('#secondaryButton').on('click', function() {acceptAnswer(); resetLayout()});
 }
 
+
 /**
- * Promotes a card to the next level.
+ * Instructs API to promotes a card to the next level.
  */
 function rankUpCard() {
 
@@ -94,7 +94,28 @@ function rankUpCard() {
 
     // send updated card back to API
     postCardUpdate(currentcard);
+
+    console.log('Ranked up card: '+currentcard);
 }
+
+/**
+ * Instructs API to downgrade a card to previous level, IF not yet at lowest level
+ */
+function rankDownCard() {
+
+    // Look up current niveau
+    let level = getUrlParameter('level') - 1;
+
+    if (level != 0) {
+        currentcard['box'] = level - 1;
+
+        // send updated card back to API
+        postCardUpdate(currentcard);
+
+        console.log('Ranked down card: '+currentcard);
+    }
+}
+
 
 // Retrieve URL parameter
 // https://stackoverflow.com/questions/19491336/how-to-get-url-parameter-using-jquery-or-plain-javascript
@@ -156,12 +177,6 @@ async function getData(url) {
     return response.json()
 }
 
-/** Show content of both fields, make both fields editable, change buttons*/
-function editCard() {
-    alert("Edit clicked!");
-}
-
-
 async function postCardUpdate(card) {
     const headers = new Headers();
     const body = JSON.stringify(card)
@@ -183,4 +198,15 @@ async function postCardUpdate(card) {
         .catch((e) => {
             // error in e.message
         });
+}
+
+/**
+ * Undoes all DOM modifications made for editing / feedback
+ */
+function resetLayout() {
+    registerHandlers();
+    $('#firstField').prop('disabled', false);
+    $('#primaryButton').text('Validate');
+    $('#secondaryButton').text('Edit');
+    $('#card').removeClass('wrong-halo');
 }
