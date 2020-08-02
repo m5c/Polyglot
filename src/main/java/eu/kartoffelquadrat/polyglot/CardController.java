@@ -160,6 +160,9 @@ public class CardController {
     }
 
     private int randomListElement(List<Integer> list) {
+
+        if(list.isEmpty())
+            throw new RuntimeException("Cannot retreive random element of empty list!");
         return list.get(new Random().nextInt(list.size()));
     }
 

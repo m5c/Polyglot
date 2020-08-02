@@ -8,6 +8,7 @@ function setTitle() {
 
 // register listener for enter pressed (solution input field)
 function registerHandlers() {
+
     // register same callback for enter on Add User button
     $('#firstField').keypress(function (event) {
         let keycode = (event.keyCode ? event.keyCode : event.which);
@@ -30,6 +31,8 @@ function registerHandlers() {
 // triggered when enter is pressed.
 async function validateUserResponse() {
 
+    console.log('VALIADATION');
+
     // If answer was correct, animate transition to next card
     if (currentcard['french'] === $('#firstField').val()) {
 
@@ -46,12 +49,7 @@ async function validateUserResponse() {
  */
 async function acceptAnswer() {
     // if this was the last card, don't replace it (must be done on client side, to avoid Async DB inconsistencies.)
-    // Look up current niveau
-    let level = getUrlParameter('level') - 1;
-
-    // verify there are cards remaining for this level
-    const fillState = await getData('/polyglot/api/');
-    let cardsRemaining = fillState[level] - 1;
+    cardsRemaining = amountCardsRemainingAfterThis();
 
     rankUpCard();
 
@@ -75,13 +73,52 @@ function revealSolution() {
     $('#primaryButton').text('Next');
     $('#secondaryButton').text('Mark as known');
 
-    // if next was clicked, rank-down card, proceed
-    $('#primaryButton').on('click', function() {rankDownCard(); resetLayout(); loadCard()});
+    // re-assign button handlers
+    $('#primaryButton').unbind('click');
+    $('#secondaryButton').unbind('click');
 
-    // if override was licked. Treat card as if that would have been the right answer
-    $('#secondaryButton').on('click', function() {acceptAnswer(); resetLayout()});
+    cardsRemaining = amountCardsRemainingAfterThis();
+
+    if (cardsRemaining != 0) {
+        // if next was clicked, rank-down card, proceed (WHAT IF IT WAS THE LAST CARD?)
+        $('#primaryButton').on('click', function () {
+            rankDownCard();
+            resetLayout();
+            loadCard()
+        });
+
+        // if override was clicked. Treat card as if that would have been the right answer
+        $('#secondaryButton').on('click', function () {
+            resetLayout();
+            acceptAnswer();
+        });
+    }
+    else
+    {
+        // if next was clicked, rank-down card, proceed (WHAT IF IT WAS THE LAST CARD?)
+        $('#primaryButton').on('click', function () {
+            rankDownCard();
+            window.location.href = "/polyglot/";
+        });
+
+        // if override was clicked. Treat card as if that would have been the right answer
+        $('#secondaryButton').on('click', function () {
+            acceptAnswer();
+            window.location.href = "/polyglot/";
+        });
+    }
 }
 
+
+async function amountCardsRemainingAfterThis() {
+    // Look up current niveau
+    let level = getUrlParameter('level') - 1;
+
+    // verify there are cards remaining for this level
+    const fillState = await getData('/polyglot/api/');
+    let cardsRemaining = fillState[level] - 1;
+    return cardsRemaining;
+}
 
 /**
  * Instructs API to promotes a card to the next level.
@@ -95,7 +132,7 @@ function rankUpCard() {
     // send updated card back to API
     postCardUpdate(currentcard);
 
-    console.log('Ranked up card: '+currentcard);
+    console.log('Ranked up card: ' + currentcard);
 }
 
 /**
@@ -112,7 +149,7 @@ function rankDownCard() {
         // send updated card back to API
         postCardUpdate(currentcard);
 
-        console.log('Ranked down card: '+currentcard);
+        console.log('Ranked down card: ' + currentcard);
     }
 }
 
@@ -204,9 +241,16 @@ async function postCardUpdate(card) {
  * Undoes all DOM modifications made for editing / feedback
  */
 function resetLayout() {
+
+    console.log('resetting layout');
+    $('#firstField').off('keypress');
+    $('#secondField').off('keypress');
+    $('#primaryButton').unbind('click');
+    $('#secondaryButton').unbind('click');
     registerHandlers();
     $('#firstField').prop('disabled', false);
     $('#primaryButton').text('Validate');
     $('#secondaryButton').text('Edit');
     $('#card').removeClass('wrong-halo');
+
 }
