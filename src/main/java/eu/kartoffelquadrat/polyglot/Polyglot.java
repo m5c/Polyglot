@@ -5,6 +5,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Launcher class for the Polyglot REST Backend.
+ * mySQL container must be powered up before launching the backend:
+ * ->   docker start bgpData
  *
  * @Author Maximilian Schiedermeier, Github: kartoffelquadrat
  */

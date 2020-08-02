@@ -17,10 +17,11 @@ function registerAddHandler() {
     });
 
     //make sure the focus is automatically set for the first field
-    $('#firstField').focus();
+    $('#secondField').focus();
 }
 
 function addCard() {
+
     if ($.trim($('#firstField').val()) == '') {
         shake();
         return;

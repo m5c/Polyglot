@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="polyglot.css"/>
     <script type="text/javascript" src="niveau.js"></script>
 </head>
-<body onload="setTitle();registerEntryHandler();loadCard()">
+<body onload="setTitle();registerHandlers();loadCard()">
 <div id=RowDivWithBackground class="container">
 
     <!-- this is the main div for the white center overlay with reasonable responsiveness-->
@@ -24,12 +24,12 @@
             <div id="card" class="card">
                 <div class="card-body">
                     <div class="form-group mt-4" id="lang2">
-                        <input id="firstField" type="text" class="form-control" id="lang1Field" placeholder="Français">
                         <input id="secondField" type="text" class="form-control mt-1" id="lang2Field"
                                placeholder="Deutsch">
+                        <input id="firstField" type="text" class="form-control" id="lang1Field" placeholder="Français">
 
                         <!-- optional:            style="  margin-right: 10px; "-->
-                        <button id="addButton" type="submit" class="btn btn-outline-primary float-right mt-2" style="min-width: 10rem;">Verify
+                        <button id="verifyButton" type="submit" class="btn btn-outline-primary float-right mt-2" style="min-width: 10rem;">Verify
                         </button>
                         <button id="editButton" type="edit" class="btn btn-outline-secondary float-left mt-2"style="min-width: 10rem;">Edit
                         </button>
