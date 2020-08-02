@@ -31,7 +31,6 @@ public class CardController {
         int[] fillState = new int[5];
         for (int i = 0; i < fillState.length; i++) {
             fillState[i] = cardRepository.countByBox(i);
-            System.out.println(fillState[i]);
         }
 
         return fillState;
@@ -163,6 +162,5 @@ public class CardController {
     private int randomListElement(List<Integer> list) {
         return list.get(new Random().nextInt(list.size()));
     }
-
 
 }

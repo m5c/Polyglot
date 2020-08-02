@@ -53,7 +53,7 @@ async function showFillState() {
 
     $('#niveau0').text("Niveau 1  (" + fillState[0] + ")");
     if (fillState[0] == 0) {
-        $('#niveau1').addClass("disabled");
+        $('#niveau0').addClass("disabled");
     }
     $('#niveau1').text("Niveau 2  (" + fillState[1] + ")");
     if (fillState[1] == 0) {

@@ -17,7 +17,7 @@ function registerHandlers() {
     });
 
     //register callback for "add" button
-    $('#verifyButton').on('click', validateUserResponse);
+    $('#primaryButton').on('click', validateUserResponse);
 
     // get back to menu with escape
     $(document).keyup(function (e) {
@@ -33,27 +33,54 @@ async function validateUserResponse() {
     // If answer was correct, animate transition to next card
     if (currentcard['french'] === $('#firstField').val()) {
 
-        // if this was the last card, don; t replace it (must be done on client side, to avoid Async DB inconsistencies.)
-        // Look up current niveau
-        let level = getUrlParameter('level') - 1;
-
-        // verify there are cards remaining for this level
-        const fillState = await getData('/polyglot/api/');
-        let cardsRemaining = fillState[level] - 1;
-
-        rankUpCard();
-
-        /// only load another card, if there are still cards left.
-        if (cardsRemaining == 0)
-            window.location.href = "/polyglot/";
-        else {
-            animateReplace();
-            loadCard();
-        }
+        acceptAnswer();
     } else {
         // show solution
         animateShake();
+        revealSolution();
     }
+}
+
+/**
+ * called if the right answer was provided, or the error popup was overridden.
+ */
+async function acceptAnswer() {
+    // if this was the last card, don't replace it (must be done on client side, to avoid Async DB inconsistencies.)
+    // Look up current niveau
+    let level = getUrlParameter('level') - 1;
+
+    // verify there are cards remaining for this level
+    const fillState = await getData('/polyglot/api/');
+    let cardsRemaining = fillState[level] - 1;
+
+    rankUpCard();
+
+    /// only load another card, if there are still cards left.
+    if (cardsRemaining == 0)
+        window.location.href = "/polyglot/";
+    else {
+        animateReplace();
+        loadCard();
+    }
+
+}
+
+/**
+ * Modifies layout if wrong answer was provided.
+ */
+function revealSolution() {
+
+    $('#firstField').val(currentcard['french']);
+    $('#firstField').prop('disabled', true);
+    $('#card').addClass('wrong-halo')
+    $('#primaryButton').text('Next');
+    $('#secondaryButton').text('Mark as known');
+
+    // if next was clicked, rank-down card, proceed
+    //location.reload();
+
+    // if override was licked. Treat card as if that would have been the right answer
+    // override...
 }
 
 /**
