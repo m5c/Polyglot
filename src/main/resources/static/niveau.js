@@ -49,9 +49,24 @@ async function validateUserResponse() {
  */
 async function acceptAnswer() {
     // if this was the last card, don't replace it (must be done on client side, to avoid Async DB inconsistencies.)
-    cardsRemaining = amountCardsRemainingAfterThis();
+    cardsRemaining = await amountCardsRemainingAfterThis();
 
     rankUpCard();
+
+    /// only load another card, if there are still cards left.
+    if (cardsRemaining == 0)
+        window.location.href = "/polyglot/";
+    else {
+        animateReplace();
+        loadCard();
+    }
+}
+
+async function rejectAnswer() {
+    // if this was the last card, don't replace it (must be done on client side, to avoid Async DB inconsistencies.)
+    cardsRemaining = amountCardsRemainingAfterThis();
+
+    rankDownCard();
 
     /// only load another card, if there are still cards left.
     if (cardsRemaining == 0)
@@ -65,7 +80,7 @@ async function acceptAnswer() {
 /**
  * Modifies layout if wrong answer was provided.
  */
-function revealSolution() {
+async function revealSolution() {
 
     $('#firstField').val(currentcard['french']);
     $('#firstField').prop('disabled', true);
@@ -77,34 +92,36 @@ function revealSolution() {
     $('#primaryButton').unbind('click');
     $('#secondaryButton').unbind('click');
 
-    cardsRemaining = amountCardsRemainingAfterThis();
+    let level = getUrlParameter('level') - 1;
+    let cardsRemaining = await amountCardsRemainingAfterThis();
 
-    if (cardsRemaining != 0) {
-        // if next was clicked, rank-down card, proceed (WHAT IF IT WAS THE LAST CARD?)
+    // Continue while there are cards remaining or ( the level is 0 + the card was flagged as false)
+    if (cardsRemaining > 0 || level == 0) {
+        // if next was clicked, rank-down card, proceed to next card
+        $('#primaryButton').on('click', function () {
+            rejectAnswer();
+            resetLayout();
+        });
+    } else {
+        // if next was clicked, rank-down card, go back to menu
         $('#primaryButton').on('click', function () {
             rankDownCard();
-            resetLayout();
-            loadCard()
-        });
-
-        // if override was clicked. Treat card as if that would have been the right answer
-        $('#secondaryButton').on('click', function () {
-            resetLayout();
-            acceptAnswer();
+            window.location.href = "/polyglot/";
         });
     }
-    else
-    {
-        // if next was clicked, rank-down card, proceed (WHAT IF IT WAS THE LAST CARD?)
-        $('#primaryButton').on('click', function () {
-            rankDownCard();
-            window.location.href = "/polyglot/";
-        });
 
-        // if override was clicked. Treat card as if that would have been the right answer
+
+    if ( cardsRemaining > 0) {
+        // if override was clicked. Treat card as if that would have been the right answer, proceed to next card
         $('#secondaryButton').on('click', function () {
             acceptAnswer();
-            window.location.href = "/polyglot/";
+            resetLayout();
+        });
+    } else {
+    // no cards remaining (the last one just disappeared): rank up card and go back to menu.
+        $('#secondaryButton').on('click', function () {
+            acceptAnswer();
+            //window.location.href = "/polyglot/";
         });
     }
 }
@@ -117,6 +134,8 @@ async function amountCardsRemainingAfterThis() {
     // verify there are cards remaining for this level
     const fillState = await getData('/polyglot/api/');
     let cardsRemaining = fillState[level] - 1;
+
+    console.log('Cards remaining: ' + cardsRemaining);
     return cardsRemaining;
 }
 
@@ -190,12 +209,8 @@ async function loadCard() {
 
 async function animateShake() {
     $('#card').addClass("shake-horizontal");
-    // $('#card').addClass("wrong-halo");
 
-    await sleep(400);
-    // $('#card').removeClass("wrong-halo");
-
-    await sleep(400);
+    await sleep(800);
     $('#card').removeClass("shake-horizontal");
 }
 
