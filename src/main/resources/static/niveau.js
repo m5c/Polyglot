@@ -9,7 +9,7 @@ function setTitle() {
 // register listener for enter pressed (solution input field)
 function registerHandlers() {
 
-    // register same callback for enter on Add User button
+    // register same callback for enter on textfield
     $('#firstField').keypress(function (event) {
         let keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
@@ -82,13 +82,14 @@ async function rejectAnswer() {
  */
 async function revealSolution() {
 
+    // Update UI elements
     $('#firstField').val(currentcard['french']);
     $('#firstField').prop('disabled', true);
     $('#card').addClass('wrong-halo')
     $('#primaryButton').text('Next');
     $('#secondaryButton').text('Mark as known');
 
-    // re-assign button handlers
+    // re-assign button and keycode handlers
     $('#primaryButton').unbind('click');
     $('#secondaryButton').unbind('click');
 
@@ -111,14 +112,14 @@ async function revealSolution() {
     }
 
 
-    if ( cardsRemaining > 0) {
+    if (cardsRemaining > 0) {
         // if override was clicked. Treat card as if that would have been the right answer, proceed to next card
         $('#secondaryButton').on('click', function () {
             acceptAnswer();
             resetLayout();
         });
     } else {
-    // no cards remaining (the last one just disappeared): rank up card and go back to menu.
+        // no cards remaining (the last one just disappeared): rank up card and go back to menu.
         $('#secondaryButton').on('click', function () {
             acceptAnswer();
             //window.location.href = "/polyglot/";
@@ -257,15 +258,20 @@ async function postCardUpdate(card) {
  */
 function resetLayout() {
 
+    // Undo changes
     console.log('resetting layout');
     $('#firstField').off('keypress');
     $('#secondField').off('keypress');
     $('#primaryButton').unbind('click');
     $('#secondaryButton').unbind('click');
+    $(document).off('keypress');
+
+    // Set as it was before
     registerHandlers();
     $('#firstField').prop('disabled', false);
     $('#primaryButton').text('Validate');
     $('#secondaryButton').text('Edit');
     $('#card').removeClass('wrong-halo');
+
 
 }
