@@ -31,7 +31,9 @@ public class CardController {
         int[] fillState = new int[5];
         for (int i = 0; i < fillState.length; i++) {
             fillState[i] = cardRepository.countByBox(i);
+            System.out.println(fillState[i]);
         }
+
         return fillState;
     }
 
@@ -86,6 +88,7 @@ public class CardController {
         // Minor flaw: Cards of almost empty boxes are retrieved with higher probability, compared to fuller boxes.
         List<Integer> cardIdsInBox = cardRepository.findRandomInBox(level);
         int randomCardIdOfBox = randomListElement(cardIdsInBox);
+        System.out.println("Random card picked, for level +"+level);
         return ResponseEntity.ok().body(cardRepository.findById(randomCardIdOfBox));
     }
 
@@ -117,6 +120,9 @@ public class CardController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Card id mismatch. Modifications rejected.");
 
         cardRepository.save(card);
+
+        System.out.println("Card saved.");
+
         return ResponseEntity.ok().body("");
     }
 

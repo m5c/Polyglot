@@ -16,6 +16,13 @@ function registerAddHandler() {
         }
     });
 
+    // get back to menu with escape
+    $(document).keyup(function(e) {
+        if (e.key === "Escape") { // escape key maps to keycode `27`
+            window.location.href = "/polyglot/";
+        }
+    });
+
     //make sure the focus is automatically set for the first field
     $('#secondField').focus();
 }
@@ -44,7 +51,7 @@ function addCard() {
     $('#secondField').val('');
 
     //focus first field again
-    $('#firstField').focus();
+    $('#secondField').focus();
 }
 
 async function shake() {

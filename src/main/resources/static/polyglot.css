@@ -255,13 +255,13 @@ puff-in
 /**
 wrong-halo
  */
-.wrong-halo {
-    box-shadow: 0px 0px 40px 20px #d9534f;
-}
+/*.wrong-halo {*/
+/*    box-shadow: 0px 0px 40px 20px #d9534f;*/
+/*}*/
 
-.right-halo {
-    box-shadow: 0px 0px 5px 5px #5cb85c;
-}
+/*.right-halo {*/
+/*    box-shadow: 0px 0px 5px 5px #5cb85c;*/
+/*}*/
 
 
 
