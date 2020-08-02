@@ -1,3 +1,52 @@
+async function registerKeys() {
+    const fillState = await getData('/polyglot/api/');
+
+    // register key access to "Add card menu"
+    $(document).keyup(function (e) {
+        if (e.key === "a") {
+            window.location.href = "/polyglot/add.html";
+        }
+    });
+
+    // register key-code access to levels, if non empty
+    if (fillState[0] != 0) {
+        $(document).keyup(function (e) {
+            if (e.key === "1") {
+                window.location.href = "/polyglot/niveau.html?level=1";
+            }
+        });
+    }
+    if (fillState[1] != 0) {
+
+        $(document).keyup(function (e) {
+            if (e.key === "2") {
+                window.location.href = "/polyglot/niveau.html?level=2";
+            }
+        });
+    }
+    if (fillState[2] != 0) {
+        $(document).keyup(function (e) {
+            if (e.key === "3") {
+                window.location.href = "/polyglot/niveau.html?level=3";
+            }
+        });
+    }
+    if (fillState[3] != 0) {
+        $(document).keyup(function (e) {
+            if (e.key === "4") {
+                window.location.href = "/polyglot/niveau.html?level=4";
+            }
+        });
+    }
+    if (fillState[4] != 0) {
+        $(document).keyup(function (e) {
+            if (e.key === "5") {
+                window.location.href = "/polyglot/niveau.html?level=5";
+            }
+        });
+    }
+}
+
 async function showFillState() {
 
     const fillState = await getData('/polyglot/api/');
