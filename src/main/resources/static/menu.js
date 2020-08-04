@@ -1,6 +1,13 @@
 async function registerKeys() {
     const fillState = await getData('/polyglot/api/');
 
+    // register key listener for fullscreen mode
+    $(document).keyup(function (e) {
+        if (e.key === "f") {
+            enterFullScreen();
+        }
+    });
+
     // register key access to "Add card menu"
     $(document).keyup(function (e) {
         if (e.key === "a") {
@@ -76,4 +83,21 @@ async function showFillState() {
 async function getData(url) {
     const response = await fetch(url);
     return response.json()
+}
+
+function enterFullScreen() {
+    /* Get the documentElement (<html>) to display the page in fullscreen */
+    let elem = document.documentElement;
+
+    // actually get into fullscreen mode
+    if (elem.requestFullscreen) {
+        elem.requestFullscreen();
+    } else if (elem.mozRequestFullScreen) { /* Firefox */
+        elem.mozRequestFullScreen();
+    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
+        elem.webkitRequestFullscreen();
+    } else if (elem.msRequestFullscreen) { /* IE/Edge */
+        elem.msRequestFullscreen();
+    }
+
 }
