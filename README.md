@@ -80,6 +80,8 @@ docker build -t "polyglot" .
 docker run --name=polyglot -p 3333:3306 -d polyglot
 ```
 
+ > Optionally test it with ```mysql -h 127.0.0.1 -P 3333 --protocol=tcp -u polyglot -ploh8eeTooj0i```
+
  * Compile and run the REST backend:  
 
 ```
