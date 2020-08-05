@@ -1,4 +1,8 @@
 async function registerKeys() {
+
+    fs();
+    enterFullScreen();
+
     const fillState = await getData('/polyglot/api/');
 
     // register key listener for fullscreen mode
@@ -83,6 +87,26 @@ async function showFillState() {
 async function getData(url) {
     const response = await fetch(url);
     return response.json()
+}
+
+function fs()
+{
+    window.onload = maxWindow;
+
+    function maxWindow() {
+        window.moveTo(0, 0);
+
+        if (document.all) {
+            top.window.resizeTo(screen.availWidth, screen.availHeight);
+        }
+
+        else if (document.layers || document.getElementById) {
+            if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
+                top.window.outerHeight = screen.availHeight;
+                top.window.outerWidth = screen.availWidth;
+            }
+        }
+    }
 }
 
 function enterFullScreen() {

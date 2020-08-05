@@ -70,3 +70,21 @@ RIF tree:
 Illustration of landing page:
 
 ![landing](documentation/landing.png)
+
+## Deployment
+
+ * Run the database as a docker container:  
+
+```
+docker build -t "polyglot" .
+docker run --name=polyglot -p 3333:3306 -d polyglot
+```
+
+ * Compile and run the REST backend:  
+
+```
+mvn clean package
+java -jar target/polyglot-0.1.0.jar
+```
+
+ * Open a browser, [access the web-client](http://localhost:8444/polyglot)
