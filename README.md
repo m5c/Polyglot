@@ -41,7 +41,7 @@ The frontend consists of the following pages and functionality:
 
 ### REST-API
 
-The REST resources are arranges as indicated in below the RIF model. Some resources support optional parameters.
+The REST resources are arranged as indicated in the RIF model below. Some resources support optional parameters.
 
 ![rif](documentation/polyglot-rif.png)
 
