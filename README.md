@@ -14,7 +14,7 @@ A browser based vocabulary trainer.
 
 Details for the various application layers:
 
-### Web Frontent
+### Web Front-End
 
 ![ui](documentation/ui.png)
 
