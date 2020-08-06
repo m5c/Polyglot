@@ -1,0 +1,9 @@
+services:
+  database:
+    build:
+      context: .
+      dockerfile: Dockerfile-db
+    ports:
+      - "3333:3306"
+version: '3.8'
+
