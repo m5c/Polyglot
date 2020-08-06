@@ -75,6 +75,12 @@ The frontend consists of the following pages and functionality:
 
 ## Deployment
 
+ * Clone this repo:  
+```bash
+git clone https://kartoffelquadrat.eu:5050/maex/Polyglot.git
+cd Polyglot
+```
+
  * Deploy the application with docker compose:  
 ```bash
 docker-compose up
