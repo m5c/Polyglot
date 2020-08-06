@@ -12,11 +12,41 @@ A browser based vocabulary trainer.
 
 ## Layers
 
-Details for the various layers:
+Details for the various application layers:
+
+### Web Frontent
+
+The frontend consists of the following pages and functionality:
+
+ * Landing page
+   * 5 buttons to select the desired difficulty (implicitly shows current fill state)
+   * Add-Card button, to feed new cards to the system
+ * Training page
+   * Card form with two lines
+     * Statement in native language (revealed)
+     * Statement in foreign language (concealed)
+   * Option to reveal solution
+   * Option to verify a submitted solution
+   * Button to go back to Landing page
+ * Add a new card page
+   * Card form with two lines
+     * Statement in native language (revealed)
+     * Statement in foreign language (concealed)
+   * Submit button
+   * Button to go back to Landing page
+
+
+### REST-API
+
+The REST resources are arranges as indicated in below the RIF model. Some resources support optional parameters.
+
+![rif](documentation/polyglot-rif.png)
+
+ > Note: ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
 
 ### Database
 
-The actual vocabulary is persisted in a mySQL database. There is jsut a single table: ```polycglot.card```. Every line represents a vocabulary card with two language entries, an id and a box. The latter represents the cards positioning in a vocabulary box with 5 spaces.
+The actual vocabulary is persisted in a mySQL database. There is only one table: ```polycglot.card```. Every line represents a vocabulary card with two language entries, an id and a box. The latter represents the cards positioning in a vocabulary box with 5 spaces.
 
 Sample:  
 ```SQL
@@ -43,36 +73,6 @@ mysql> SELECT * FROM card;
 | 17 |   2 | impasse (f)                | sackgasse (f)           |
 +----+-----+----------------------------+-------------------------+
 ```
-
-### REST-API
-
-The REST resources are arranges as indicated in below the RIF model. Some resources support optional parameters.
-
-![rif](documentation/polyglot-rif.png)
-
- > Note: ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
-
-### Web Frontent
-
-The frontend consists of the following pages and functionality:
-
- * Landing page
-   * 5 buttons to select the desired difficulty (implicitly shows current fill state)
-   * Add-Card button, to feed new cards to the system
- * Training page
-   * Card form with two lines
-     * Statement in native language (revealed)
-     * Statement in foreign language (concealed)
-   * Option to reveal solution
-   * Option to verify a submitted solution
-   * Button to go back to Landing page
- * Add a new card page
-   * Card form with two lines
-     * Statement in native language (revealed)
-     * Statement in foreign language (concealed)
-   * Submit button
-   * Button to go back to Landing page
-
 ## Deployment
 
  * Clone this repo:  
