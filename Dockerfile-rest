@@ -1,33 +1,21 @@
-# This Dockerfile consists of three stages:
-# 1: set up DB
-# 2: compile java sources with maven
-# 3: startup the generated jar within container
-
-# PART 1 - DB
-
-# Pull from SQL master image and set me as maintainer
-FROM mysql/mysql-server:5.7 AS database
-MAINTAINER maximilian schiedermeier
-# Set root password
-ENV MYSQL_ROOT_PASSWORD=OojeeWood1ae
-# Note: all *.sql scripts located in "/docker-entrypoint-initdb.d" will be executed on first container startup
-COPY polyglot-setup.sql /docker-entrypoint-initdb.d/
-#however, since we have multiple builds, we have to run the script manually - the housing folder will disapper on the next FROM instruction otherwiser
-
-## PART 2 - Compile sources with Maven
 FROM maven:3.6-jdk-13 AS build
+MAINTAINER maximilian schiedermeier
 COPY src /usr/src/app/src
 COPY pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml clean package
 
-## PART 3 - Run JAR file within container
+## Discard Maven, run JAR file using JRE
 FROM openjdk:8-jre-alpine
+
+## Wait for SQL to be ready
+ENV WAIT_VERSION 2.7.2
+ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERSION/wait /wait
+RUN chmod +x /wait
+
 # copy the jar from the build stage, expose the required port and run it.
 COPY --from=build /usr/src/app/target/polyglot-0.1.0.jar /usr/app/polyglot-0.1.0.jar
-# copy the sql-db setup scripts from the database stage to this stage
-COPY --from=database docker-entrypoint-initdb.d /docker-entrypoint-initdb.d
 EXPOSE 8080
-ENTRYPOINT ["java","-jar","polyglot-0.1.0.jar"]
+#ENTRYPOINT ["java","-jar","polyglot-0.1.0.jar"]
 
 # allow debug if startup fails, with: docker run -it --entrypoint /bin/bash polyglot -s
 RUN apk add --no-cache bash coreutils grep sed
