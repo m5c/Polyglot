@@ -14,79 +14,71 @@ A browser based vocabulary trainer.
 
 Details for the various layers:
 
-### SQL
+### Database
 
-Polyglot stipulates the existence of a database ```polyglot```. Create it with:  
-```CREATE DATABASE polyglot;```
+The actual vocabulary is persisted in a mySQL database. There is jsut a single table: ```polycglot.card```. Every line represents a vocabulary card with two language entries, an id and a box. The latter represents the cards positioning in a vocabulary box with 5 spaces.
 
-The table reflects the class ```Card.java```, having the following columns:
-
- * PK generated id. Starts at 1. Counts up.
- * French. String, as it would be noted on a paper card, e.g. ```l'amour (f)```
- * German. String, as it would be noted on the other side of a paper card,  e.g. ```die Liebe```
- * Box (index ranging from 0-5). 5 are archived cards that can not be queried.
-
-So ultimately, the **generated** layout will look like this:
-
+Sample:  
 ```SQL
 mysql> SELECT * FROM card;
-+----+-------------+-----------+-----+
-| id | french      | german    | box |
-+----+-------------+-----------+-----+
-|  1 | L'amour (f) | Die Liebe |   0 |
-+----+-------------+-----------+-----+
-1 row in set (0.00 sec)
++----+-----+----------------------------+-------------------------+
+| id | box | french                     | german                  |
++----+-----+----------------------------+-------------------------+
+|  1 |   3 | niaiser                    | herumblödeln            |
+|  2 |   3 | biscuit (m)                | Keks (m)                |
+|  3 |   2 | sans gluten                | glutenfrei              |
+|  4 |   0 | torchon (m)                | Küchentuch (n)          |
+|  5 |   1 | école de fôret imperiale   | imperiale waldorfschule |
+|  6 |   0 | bac à sable (m)            | Sandkasten (m)          |
+|  7 |   0 | abri antiatomique (m)      | Atomschutzbunker (m)    |
+|  8 |   0 | nid d'oiseau (m)           | Vogelnest (n)           |
+|  9 |   0 | étoile (f)                 | Stern (m)               |
+| 10 |   0 | cocasse                    | drollig                 |
+| 11 |   0 | pomme (f)                  | Apfel (m)               |
+| 12 |   0 | subtil équilibre (m)       | Balanceakt (m)          |
+| 13 |   0 | brique (f)                 | Ziegelstein (m)         |
+| 14 |   0 | Raton laveur (m)           | Waschbär (m)            |
+| 15 |   0 | Colibri (m)                | Kolibri (m)             |
+| 16 |   0 | Pétale de rose (m)         | Rosenblatt (m)          |
+| 17 |   2 | impasse (f)                | sackgasse (f)           |
++----+-----+----------------------------+-------------------------+
 ```
 
-### REST
+### REST-API
 
-RIF tree:
+The REST-APIs resources are aligned according as indicated in below RIF model.
 
 ![rif](documentation/polyglot-rif.png)
 
  > Note: ```/api``` is common prequel to all REST calls, for clear distinction to the web-ui.
 
-### JS
+### Web Frontent
+
+The frontend consists of the following pages and functionality:
 
  * Landing page
-   * Select Box, (fill status per box ?)
-   * Edit Card
-   * Add Card
- * Test page
-   * Show A-Side
-   * Enter details for B-Side
-   * Show result, proceed
-   * Back to landing
- * Edit page
-   * Search for card, by content
-   * Update / Delete card (Id known) (save & reload)
-   * Back to landing
- * Add a new card
-   * Enter A-Side
-   * Enter B-Side
-   * Done (save & reload)
-   * Back to landing
-
-Illustration of landing page:
-
-![landing](documentation/landing.png)
+   * 5 buttons to select the desired difficulty (implicitly shows current fill state)
+   * Add-Card button, to feed new cards to the system
+ * Training page
+   * Card form with two lines
+     * Statement in native language (revealed)
+     * Statement in foreign language (concealed)
+   * Option to reveal solution
+   * Option to verify a submitted solution
+   * Button to go back to Landing page
+ * Add a new card page
+   * Card form with two lines
+     * Statement in native language (revealed)
+     * Statement in foreign language (concealed)
+   * Submit button
+   * Button to go back to Landing page
 
 ## Deployment
 
- * Run the database as a docker container:  
-
-```
-docker build -t "polyglot" .
-docker run --name=polyglot -p 3333:3306 -d polyglot
-```
-
- > Optionally test it with ```mysql -h 127.0.0.1 -P 3333 --protocol=tcp -u polyglot -ploh8eeTooj0i```
-
- * Compile and run the REST backend:  
-
-```
-mvn clean package
-java -jar target/polyglot-0.1.0.jar
+ * Deploy the application with docker compose:  
+```bash
+docker compose up
 ```
 
  * Open a browser, [access the web-client](http://localhost:8444/polyglot)
+
