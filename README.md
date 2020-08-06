@@ -91,3 +91,9 @@ docker-compose up
 
  * Open a browser, [access the web-client](http://localhost:8444/polyglot)
 
+## Contact / Pull Requests
+
+ * Author: Maximilian Schiedermeier ![email](documentation/email.png)
+ * Github: Kartoffelquadrat
+ * Webpage: https://www.cs.mcgill.ca/~mschie3
+ * License: [MIT](https://opensource.org/licenses/MIT)
