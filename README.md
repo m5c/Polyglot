@@ -7,7 +7,7 @@ A browser based vocabulary trainer.
 *Polyglot* is a full stack web application.
 
  * Data persistence in a mySQL database, hosted in a docker container.
- * Server side logic as a Spring-Boot REST backend.
+ * Server side logic as a Spring-Boot REST backend, hosted in a docker container.
  * User interface as responsive Javascript / Bootstrap webapp.
 
 ## Layers
@@ -46,11 +46,11 @@ mysql> SELECT * FROM card;
 
 ### REST-API
 
-The REST-APIs resources are aligned according as indicated in below RIF model.
+The REST resources are arranges as indicated in below the RIF model. Some resources support optional parameters.
 
 ![rif](documentation/polyglot-rif.png)
 
- > Note: ```/api``` is common prequel to all REST calls, for clear distinction to the web-ui.
+ > Note: ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
 
 ### Web Frontent
 
@@ -77,7 +77,7 @@ The frontend consists of the following pages and functionality:
 
  * Deploy the application with docker compose:  
 ```bash
-docker compose up
+docker-compose up
 ```
 
  * Open a browser, [access the web-client](http://localhost:8444/polyglot)
