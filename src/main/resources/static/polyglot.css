@@ -30,6 +30,10 @@ h1 {
 /*tailored layout for mobile phones: SE:640, A3: 720, N7: 800*/
 @media (max-device-width: 800px) {
 
+    input[type="text"] {
+        font-size: 36px;
+    }
+
     .col-sm-4 {
         max-width: 90%;
     }
