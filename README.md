@@ -84,12 +84,32 @@ git clone https://kartoffelquadrat.eu:5050/maex/Polyglot.git
 cd Polyglot
 ```
 
+### Composed deployment
+
  * Deploy the application with docker compose:  
 ```bash
 docker-compose up
 ```
 
  * Open a browser, [access the web-client](http://localhost:8444/polyglot)
+
+### Individual deployment
+
+ * Build and deploy only the DB:  
+```bash
+	docker build -t polyglot-db . -f Dockerfile-db
+docker run --name polyglot-db -p 3333:3306 polyglot-db
+```
+
+ * Update the connection settings in ```application.properties```:  
+```properties
+spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3333/polyglot
+```
+
+ * Run the REST back-end:  
+```bash
+mvn spring-boot:run
+```
 
 ## Contact / Pull Requests
 
