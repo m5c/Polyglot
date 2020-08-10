@@ -1,7 +1,7 @@
 async function registerKeys() {
 
-    fs();
-    enterFullScreen();
+    // register callback for "export" button
+    $('#export').on('click', exportAllCards);
 
     const fillState = await getData('/polyglot/api/');
 
@@ -89,39 +89,66 @@ async function getData(url) {
     return response.json()
 }
 
-function fs()
+async function exportAllCards()
 {
-    window.onload = maxWindow;
+    let allCardsJson = await getData('api/cards/');
 
-    function maxWindow() {
-        window.moveTo(0, 0);
-
-        if (document.all) {
-            top.window.resizeTo(screen.availWidth, screen.availHeight);
-        }
-
-        else if (document.layers || document.getElementById) {
-            if (top.window.outerHeight < screen.availHeight || top.window.outerWidth < screen.availWidth) {
-                top.window.outerHeight = screen.availHeight;
-                top.window.outerWidth = screen.availWidth;
-            }
-        }
+    // remove the database card id entry fpr every card in array.
+    for (let i = 0; i < allCardsJson.length; i++) {
+        delete allCardsJson[i].id;
     }
+
+    // actually trigger download as a text file
+    download(getDateTimeString() + '.pglt', JSON.stringify(allCardsJson));
 }
 
-function enterFullScreen() {
-    /* Get the documentElement (<html>) to display the page in fullscreen */
-    let elem = document.documentElement;
+/**
+ * Function to generate downloadable text file from input text variable. Used for export
+ * https://ourcodeworld.com/articles/read/189/how-to-create-a-file-and-generate-a-download-with-javascript-in-the-browser-without-a-server
+ * @param filename
+ * @param text
+ */
+function download(filename, text) {
+    let element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
 
-    // actually get into fullscreen mode
-    if (elem.requestFullscreen) {
-        elem.requestFullscreen();
-    } else if (elem.mozRequestFullScreen) { /* Firefox */
-        elem.mozRequestFullScreen();
-    } else if (elem.webkitRequestFullscreen) { /* Chrome, Safari and Opera */
-        elem.webkitRequestFullscreen();
-    } else if (elem.msRequestFullscreen) { /* IE/Edge */
-        elem.msRequestFullscreen();
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+
+/**
+ * Generates a string variable with date and time, separated by dashes.
+ * https://stackoverflow.com/questions/10211145/getting-current-date-and-time-in-javascript
+ * @returns {string}
+ */
+function getDateTimeString() {
+    var now     = new Date();
+    var year    = now.getFullYear();
+    var month   = now.getMonth()+1;
+    var day     = now.getDate();
+    var hour    = now.getHours();
+    var minute  = now.getMinutes();
+    var second  = now.getSeconds();
+    if(month.toString().length == 1) {
+        month = '0'+month;
     }
-
+    if(day.toString().length == 1) {
+        day = '0'+day;
+    }
+    if(hour.toString().length == 1) {
+        hour = '0'+hour;
+    }
+    if(minute.toString().length == 1) {
+        minute = '0'+minute;
+    }
+    if(second.toString().length == 1) {
+        second = '0'+second;
+    }
+    let dateTime = year+'-'+month+'-'+day+'--'+hour+'-'+minute+'-'+second;
+    return dateTime;
 }
