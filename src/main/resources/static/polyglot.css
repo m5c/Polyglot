@@ -29,6 +29,11 @@ h1 {
 
 /*tailored layout for mobile phones: SE:640, A3: 720, N7: 800*/
 @media (max-device-width: 800px) {
+
+    .col-sm-4 {
+        max-width: 90%;
+    }
+
     .fill {
         max-width: 100%;
         min-width: 100%;
