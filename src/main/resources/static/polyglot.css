@@ -27,8 +27,8 @@ h1 {
 /*and (min-device-width : 768px)*/
 /*and (max-device-width : 1024px) {*/
 
-/*tailored layout for iphone SE, let container fill out entire screen width*/
-@media screen and (device-aspect-ratio: 40/71) {
+/*tailored layout for mobile phones: SE:640, A3: 720, N7: 800*/
+@media (max-device-width: 800px) {
     .fill {
         max-width: 100%;
         min-width: 100%;
