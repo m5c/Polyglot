@@ -5,10 +5,10 @@ async function registerKeys() {
 
     const fillState = await getData('/polyglot/api/');
 
-    // register key listener for fullscreen mode
+    // register key listener for export as json
     $(document).keyup(function (e) {
-        if (e.key === "f") {
-            enterFullScreen();
+        if (e.key === "e") {
+            exportAllCards();
         }
     });
 
