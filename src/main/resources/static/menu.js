@@ -96,6 +96,7 @@ async function exportAllCards()
     // remove the database card id entry fpr every card in array.
     for (let i = 0; i < allCardsJson.length; i++) {
         delete allCardsJson[i].id;
+        delete allCardsJson[i].box;
     }
 
     // actually trigger download as a text file
