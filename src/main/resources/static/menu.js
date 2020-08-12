@@ -10,12 +10,17 @@ async function registerKeys() {
     document.getElementById('import-form').addEventListener('change', handleFileSelect, false);
 
 
-    const fillState = await getData('/polyglot/api/');
-
     // register key listener for export as json
     $(document).keyup(async function (e) {
         if (e.key === "e") {
             await exportAllCards();
+        }
+    });
+
+    // register key listener for "database reset" (d key). - developer option.
+    $(document).keyup(async function (e) {
+        if (e.key === "d") {
+            await resetDatabase();
         }
     });
 
@@ -120,8 +125,8 @@ async function handleFileLoad(event){
     await showFillState();
 
     // do this twice with slide delay to overcome lazy DB actions, in case the server RT is faster than the DB operations. (usually only on localhost.)
-    // sleep(1000);
-    // await showFillState();
+    await sleep(100);
+    await showFillState();
 
 }
 
@@ -188,4 +193,28 @@ function getDateTimeString() {
     }
     let dateTime = year+'-'+month+'-'+day+'--'+hour+'-'+minute+'-'+second;
     return dateTime;
+}
+
+// hidden developer option. D key resets the DB.
+async function resetDatabase()
+{
+    const init = {
+        method: 'DELETE'
+    };
+
+    fetch('api/cards', init)
+        .then((response) => {
+            return response.json(); // or .text() or .blob() ...
+        })
+        .then((text) => {
+            // text is the response body
+        })
+        .catch((e) => {
+            // error in e.message
+        });
+
+    await sleep(100);
+
+    // update view (fill meter)
+    await showFillState();
 }
