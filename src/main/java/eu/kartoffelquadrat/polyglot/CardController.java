@@ -68,6 +68,16 @@ public class CardController {
     }
 
     /**
+     * Reset the entire DB. Not offered via UI.
+     * curl -X DELETE http://localhost:8080/polyglot/api/cards
+     */
+    @DeleteMapping(path = "/api/cards")
+    public void deleteAllCards() {
+
+        cardRepository.deleteAll();
+    }
+
+    /**
      * Get details of a random card
      * <p>
      * curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
