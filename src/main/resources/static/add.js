@@ -27,7 +27,7 @@ function registerAddHandler() {
     $('#secondField').focus();
 }
 
-function addCard() {
+async function addCard() {
 
     if ($.trim($('#firstField').val()) == '') {
         shake();
@@ -38,9 +38,10 @@ function addCard() {
         return;
     }
 
-    // Actually buikd a json for the new card and send REST query to API.
+    // Actually build a json for the new card and send REST query to API.
     let card = {"french":$('#firstField').val(),"german":$('#secondField').val()};
-    postCard(card);
+    let wrapperArray = wrapAsArray(card);
+    await postCards(wrapperArray);
     console.log(card);
 
     //provide visual feedback for success
@@ -70,12 +71,25 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function postCard(card)
+/**
+ * takes a single card and wraps it up in an array, also converst it to the json string representation. So the result is a one-element array, as json-string.
+ * @param card
+ */
+function wrapAsArray(card)
+{
+    let restultArray = [];
+    return JSON.stringify(restultArray.push(card));
+}
+
+/**
+ * Sends an array of cards to the rest backend. Input is an array object, not the string representation of the array.
+ * @param card
+ * @returns {Promise<void>}
+ */
+async function postCards(cardArray)
 {
     const headers = new Headers();
-    let body = [];
-    body.push(card);
-    body = JSON.stringify(body);
+    body = JSON.stringify(cardArray);
     console.log(body);
     headers.append('Content-Type', 'application/json');
 

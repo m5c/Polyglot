@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <script src="jquery.min.js"></script>
     <script src="menu.js"></script>
+    <script src="add.js"></script> <!--add is required for card import from file-->
     <link rel="stylesheet" href="bootstrap.min.css"/>
     <link rel="stylesheet" href="polyglot.css"/>
 
@@ -36,9 +37,9 @@
                     [5]</a>
                 <a href="add.html" class="btn btn-outline-primary mt-4" id="add">[A]dd Cards</a>
                 <button type="button" class="btn btn-outline-primary mt-1" id="export">[E]xport Cards</button>
-                <span class="btn btn-outline-primary mt-1 btn-file">
-    [I]mport Cards <input type='file' id="import" onchange='this.form.submit();'/>
-
+                <span class="btn btn-outline-primary mt-1 btn-file"><form id="import-form">
+    [I]mport Cards <input type='file' id="import-file"/>
+</form>
                 </span>
             </ul>
         </div>

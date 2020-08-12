@@ -3,12 +3,19 @@ async function registerKeys() {
     // register callback for "export" button
     $('#export').on('click', exportAllCards);
 
+    // register callback for "import" button
+    //$('#import').on('click', importCardsFromFile);
+    //$('#import-form').addEventListener('change', handleFileSelect, false);
+    //.submit(importCardsFromFile);
+    document.getElementById('import-form').addEventListener('change', handleFileSelect, false);
+
+
     const fillState = await getData('/polyglot/api/');
 
     // register key listener for export as json
-    $(document).keyup(function (e) {
+    $(document).keyup(async function (e) {
         if (e.key === "e") {
-            exportAllCards();
+            await exportAllCards();
         }
     });
 
@@ -87,6 +94,35 @@ async function showFillState() {
 async function getData(url) {
     const response = await fetch(url);
     return response.json()
+}
+
+
+/**
+ * reads out content of selected file (import context menu.)
+ * @param event
+ */
+function handleFileSelect(event){
+    const reader = new FileReader()
+    reader.onload = handleFileLoad;
+    reader.readAsText(event.target.files[0]);
+}
+
+/**
+ * extract content of uploaded file, send to backend.
+ * @param event
+ */
+async function handleFileLoad(event){
+    const content = event.target.result;
+    const contentAsJsonArray = JSON.parse(content);
+    await postCards(contentAsJsonArray);
+
+    // finally update the fill-state of the boxes (has changed due to import)
+    await showFillState();
+
+    // do this twice with slide delay to overcome lazy DB actions, in case the server RT is faster than the DB operations. (usually only on localhost.)
+    // sleep(1000);
+    // await showFillState();
+
 }
 
 async function exportAllCards()
