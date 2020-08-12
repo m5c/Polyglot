@@ -38,8 +38,7 @@ public class CardController {
 
     /**
      * Retrieve all saved cards from DB: curl -X GET http://127.0.0.1:8080/polyglot/api/cards
-     * <p>
-     * Retrieve all saved cards, having a specific substring, from the DB ---NOT YET ENABLED---
+     * Mainly used for export of the DB.
      */
     @GetMapping(path = "/api/cards")
     public Iterable<Card> getAllCards() {
@@ -47,23 +46,25 @@ public class CardController {
         return cardRepository.findAll();
     }
 
-
     /**
+     * Shared by "import" and "add card" functionality. Difference is that the add card-call only submits a array of size 1.
      * Card id is generated -> not an idempotent resource. That means cards should be created with a POST on the parent
      * collection rather than with a PUT on the card-id.
      * <p>
-     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '{"french":"La
-     * grenouille","german":"Der Frosch"}'
+     * curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '[{"french":"La
+     * grenouille","german":"Der Frosch"}]' OR [{...},{...}]
      */
     @PostMapping(path = "/api/cards", consumes = "application/json; charset=utf-8")
-    public void addCard(@RequestBody CardStub cardStub) {
+    public void addCard(@RequestBody Collection<CardStub> cardStubs) {
 
-        // New card has to created, for consistent ID to be generated.
-        Card card = new Card();
-        card.setFrench(cardStub.getFrench());
-        card.setGerman(cardStub.getGerman());
-        card.setBox(0);
-        cardRepository.save(card);
+        for(CardStub stub : cardStubs) {
+            // New card has to be created, for consistent ID to be generated.
+            Card card = new Card();
+            card.setFrench(stub.getFrench());
+            card.setGerman(stub.getGerman());
+            card.setBox(0);
+            cardRepository.save(card);
+        }
     }
 
     /**

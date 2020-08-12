@@ -73,7 +73,10 @@ function sleep(ms) {
 async function postCard(card)
 {
     const headers = new Headers();
-    const body = JSON.stringify(card)
+    let body = [];
+    body.push(card);
+    body = JSON.stringify(body);
+    console.log(body);
     headers.append('Content-Type', 'application/json');
 
     const init = {
