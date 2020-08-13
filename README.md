@@ -55,37 +55,37 @@ The REST resources are arranged as indicated in the RIF model below. Some resour
 
  * Get box fill state:  
 ```bash
-curl -X GET http://127.0.0.1:8080/polyglot/api
+curl -X GET http://127.0.0.1:8444/polyglot/api
 ```
  * Retrieve all cards:  
 ```bash
-curl -X GET http://127.0.0.1:8080/polyglot/api/cards
+curl -X GET http://127.0.0.1:8444/polyglot/api/cards
 ```
  * Submit new cards:  
 ```bash
-curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '[{"french":"grenouille (f)","german":"Frosch (m)"}, {"french":"voiture (f)","german":"Auto (n)"}]'
+curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8444/polyglot/api/cards --data '[{"french":"grenouille (f)","german":"Frosch (m)"}, {"french":"voiture (f)","german":"Auto (n)"}]'
 ```
  * Reset the entire database / remove all cards:  
 ```bash
-curl -X DELETE http://localhost:8080/polyglot/api/cards
+curl -X DELETE http://localhost:8444/polyglot/api/cards
 ```
  * Retrieve a random card (of any level / a specific level)
 ```bash
-curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
-curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random?level=3
+curl -X GET http://127.0.0.1:8444/polyglot/api/cards/random
+curl -X GET http://127.0.0.1:8444/polyglot/api/cards/random?level=3
 ```
 
  * Retrieve a specific card, identified by id:  
 ```bash
-curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42
+curl -X GET http://127.0.0.1:8444/polyglot/api/cards/42
 ```
  * Modify a specific card, identified by id:  
 ```bash
-curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards/3 --data '{"id":3,"french":"amour (f)","german":"Liebe (f)","box":3}'
+curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8444/polyglot/api/cards/3 --data '{"id":3,"french":"amour (f)","german":"Liebe (f)","box":3}'
 ```
  * Delete a specific card, identified by id:  
 ```bash
-curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42
+curl -X DELETE http://127.0.0.1:8444/polyglot/api/cards/42
 ```
 
  > **Note:** All above entry points are declared in [```CardController.java```](src/main/java/eu/kartoffelquadrat/polyglot/CardController.java)
