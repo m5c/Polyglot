@@ -41,15 +41,43 @@ The frontend consists of the following pages and functionality:
 
 ### REST-API
 
+This section describes the server-side REST API.
+
+#### RIF model
+
 The REST resources are arranged as indicated in the RIF model below. Some resources support optional parameters.
 
 ![rif](documentation/polyglot-rif.png)
 
- > Note: ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
+ > **Note:** ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
+
+#### Curl sample statements
+
+ * Get box fill state:  
+```curl -X GET http://127.0.0.1:8080/polyglot/api```
+ * Retrieve all cards:  
+```curl -X GET http://127.0.0.1:8080/polyglot/api/cards```
+ * Submit new cards:  
+```curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '[{"french":"grenouille (f)","german":"Frosch (m)"}, {"french":"voiture (f)","german":"Auto (n)"}]'```
+ * Reset the entire database / remove all cards:  
+```curl -X DELETE http://localhost:8080/polyglot/api/cards```
+ * Retrieve a random card:  
+```curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random```
+ * Retrieve a random card, of a specific level:
+```curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random?level=3```
+ * Retrieve a specific card, identified by id:  
+```curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42```
+ * Modify a specific card, identified by id:  
+```curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards/3 --data '{"id":3,"french":"amour (f)","german":"Liebe (f)","box":3}'```
+ * Delete a specific card, identified by id:  
+```curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42```
+
+**Note:** All above entry points are declared in [```CardController.java```](src/main/java/eu/kartoffelquadrat/polyglot/CardController.java)
+
 
 #### Import / Export
 
-As docuemnted above, the API supports import and export of the database via REST calls. The body paylod is in both cases a JSON file.
+As documented above, the API supports import and export of the database via REST calls. The body paylod is in both cases a JSON file.
 
  * [Sample import / export JSON file](documentation/ie-sample.json)
  * [General JSON schema for import / export JSON files](documentation/ie-schema.json).
