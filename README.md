@@ -72,7 +72,7 @@ The REST resources are arranged as indicated in the RIF model below. Some resour
  * Delete a specific card, identified by id:  
 ```curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42```
 
-**Note:** All above entry points are declared in [```CardController.java```](src/main/java/eu/kartoffelquadrat/polyglot/CardController.java)
+ > **Note:** All above entry points are declared in [```CardController.java```](src/main/java/eu/kartoffelquadrat/polyglot/CardController.java)
 
 
 #### Import / Export
