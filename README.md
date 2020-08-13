@@ -16,13 +16,15 @@ Details for the various application layers:
 
 ### Web Front-End
 
-![ui](documentation/ui.png)
-
 The frontend consists of the following pages and functionality:
+
+![ui](documentation/ui.png)
 
  * Landing page
    * 5 buttons to select the desired difficulty (implicitly shows current fill state)
    * Add-Card button, to feed new cards to the system
+   * Import button, to upload a set of cards from file
+   * Export button, to save previously added cards as file
  * Add a new card page
    * Card form with two lines
      * Statement in native language (revealed)
@@ -37,7 +39,7 @@ The frontend consists of the following pages and functionality:
    * Option to verify a submitted solution
    * Button to go back to Landing page
 
-
+ > **Note:** The entire UI can be controlled by key-commands. Those are indicated in brackets, e.g. ```e``` to access the ```[E]xport``` menu.
 
 ### REST-API
 
