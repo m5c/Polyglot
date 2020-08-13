@@ -47,6 +47,13 @@ The REST resources are arranged as indicated in the RIF model below. Some resour
 
  > Note: ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
 
+#### Import / Export
+
+As docuemnted above, the API supports import and export of the database via REST calls. The body paylod is in both cases a JSON file.
+
+ * [Sample import / export JSON file](documentation/ie-sample.json)
+ * [General JSON schema for import / export JSON files](documentation/ie-schema.json).
+
 ### Database
 
 The actual vocabulary is persisted in a mySQL database. There is only one table: ```polycglot.card```. Every line represents a vocabulary card with two language entries, an id and a box. The latter represents the cards positioning in a vocabulary box with 5 spaces.
