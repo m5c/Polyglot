@@ -3,6 +3,14 @@ async function registerKeys() {
     // register callback for "export" button
     $('#export').on('click', exportAllCards);
 
+    // simulate import click on "i"-key
+    $(document).keyup(async function (e) {
+        if (e.key === "i") {
+            console.log("i pressed");
+            $('#import-file').click();
+        }
+    });
+
     // register callback for "import" button
     //$('#import').on('click', importCardsFromFile);
     //$('#import-form').addEventListener('change', handleFileSelect, false);
