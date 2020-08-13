@@ -54,6 +54,8 @@ As docuemnted above, the API supports import and export of the database via REST
  * [Sample import / export JSON file](documentation/ie-sample.json)
  * [General JSON schema for import / export JSON files](documentation/ie-schema.json).
 
+ > [jsonvalidator.net](https://www.jsonschemavalidator.net/) offers free browser based validation of JSON samples against schema definitions.
+
 ### Database
 
 The actual vocabulary is persisted in a mySQL database. There is only one table: ```polycglot.card```. Every line represents a vocabulary card with two language entries, an id and a box. The latter represents the cards positioning in a vocabulary box with 5 spaces.
