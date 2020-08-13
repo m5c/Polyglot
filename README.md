@@ -69,15 +69,12 @@ curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/a
 ```bash
 curl -X DELETE http://localhost:8080/polyglot/api/cards
 ```
- * Retrieve a random card:  
-   * Of any level:
+ * Retrieve a random card (of any level / a specific level)
 ```bash
 curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
-```
-   * Of a specific level:  
-```bash
 curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random?level=3
 ```
+
  * Retrieve a specific card, identified by id:  
 ```bash
 curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42
