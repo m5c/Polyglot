@@ -37,7 +37,7 @@ public class CardController {
     }
 
     /**
-     * Retrieve all saved cards from DB: curl -X GET http://127.0.0.1:8080/polyglot/api/cards
+     * C
      * Mainly used for export of the DB.
      */
     @GetMapping(path = "/api/cards")
@@ -134,7 +134,7 @@ public class CardController {
     }
 
     /**
-     * Get details of a specific card, identified by id.
+     * Delete a specific card, identified by id.
      * <p>
      * curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42
      */
