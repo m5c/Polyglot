@@ -77,8 +77,9 @@ function sleep(ms) {
  */
 function wrapAsArray(card)
 {
-    let restultArray = [];
-    return JSON.stringify(restultArray.push(card));
+    let resultArray = [];
+    JSON.stringify(resultArray.push(card));
+    return resultArray;
 }
 
 /**
