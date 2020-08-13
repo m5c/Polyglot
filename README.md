@@ -6,9 +6,9 @@ A browser based vocabulary trainer.
 
 *Polyglot* is a full stack web application.
 
- * Data persistence in a mySQL database, hosted in a docker container.
- * Server side logic as a Spring-Boot REST backend, hosted in a docker container.
  * User interface as responsive Javascript / Bootstrap webapp.
+ * Server side logic as a Spring-Boot REST backend, hosted in a docker container.
+ * Data persistence in a mySQL database, hosted in a docker container.
 
 ## Layers
 
@@ -54,23 +54,42 @@ The REST resources are arranged as indicated in the RIF model below. Some resour
 #### Curl sample statements
 
  * Get box fill state:  
-```curl -X GET http://127.0.0.1:8080/polyglot/api```
+```bash
+curl -X GET http://127.0.0.1:8080/polyglot/api
+```
  * Retrieve all cards:  
-```curl -X GET http://127.0.0.1:8080/polyglot/api/cards```
+```bash
+curl -X GET http://127.0.0.1:8080/polyglot/api/cards
+```
  * Submit new cards:  
-```curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '[{"french":"grenouille (f)","german":"Frosch (m)"}, {"french":"voiture (f)","german":"Auto (n)"}]'```
+```bash
+curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards --data '[{"french":"grenouille (f)","german":"Frosch (m)"}, {"french":"voiture (f)","german":"Auto (n)"}]'
+```
  * Reset the entire database / remove all cards:  
-```curl -X DELETE http://localhost:8080/polyglot/api/cards```
+```bash
+curl -X DELETE http://localhost:8080/polyglot/api/cards
+```
  * Retrieve a random card:  
-```curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random```
- * Retrieve a random card, of a specific level:
-```curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random?level=3```
+   * Of any level:
+```bash
+curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random
+```
+   * Of a specific level:  
+```bash
+curl -X GET http://127.0.0.1:8080/polyglot/api/cards/random?level=3
+```
  * Retrieve a specific card, identified by id:  
-```curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42```
+```bash
+curl -X GET http://127.0.0.1:8080/polyglot/api/cards/42
+```
  * Modify a specific card, identified by id:  
-```curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards/3 --data '{"id":3,"french":"amour (f)","german":"Liebe (f)","box":3}'```
+```bash
+curl -H 'Content-type:application/json' -X POST http://127.0.0.1:8080/polyglot/api/cards/3 --data '{"id":3,"french":"amour (f)","german":"Liebe (f)","box":3}'
+```
  * Delete a specific card, identified by id:  
-```curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42```
+```bash
+curl -X DELETE http://127.0.0.1:8080/polyglot/api/cards/42
+```
 
  > **Note:** All above entry points are declared in [```CardController.java```](src/main/java/eu/kartoffelquadrat/polyglot/CardController.java)
 
