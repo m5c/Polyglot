@@ -12,7 +12,15 @@ function registerAddHandler() {
     $('#secondField').keypress(function (event) {
         let keycode = (event.keyCode ? event.keyCode : event.which);
         if (keycode == '13') {
-            addCard();
+            // if empty, just reject
+            if ($.trim($('#secondField').val()) == '') {
+                shake();
+            }
+            // if not empty, set focus on other field
+            else
+            {
+                $('#firstField').focus();
+            }
         }
     });
 
