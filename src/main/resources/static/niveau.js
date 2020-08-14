@@ -205,6 +205,9 @@ function getUrlParameter(sParam) {
  */
 async function loadCard() {
 
+    // remember previous card, if existent
+    let previouscard = currentcard;
+
     // Look up current niveau
     let level = getUrlParameter('level') - 1;
 
@@ -212,6 +215,11 @@ async function loadCard() {
     currentcard = await getData('/polyglot/api/cards/random?level=' + level);
     console.log(currentcard);
 
+    // get another card in case the DBs lazy loading lead to a phantom card (same card can not come twice, with exception to first box)
+    if(previouscard != null && previouscard === currentcard) {
+        loadCard();
+        return;
+    }
     // display the german part, focus on the french part, disable editing of the german part
     $('#firstField').val('');
     $('#secondField').val(currentcard['german']);
@@ -272,7 +280,7 @@ function resetLayout() {
     //ToDo: get rid of enter key registration on document.
     //clean slate - remove all keyevents / clickevents
     $(document).unbind(); // <-- literally the only reliable way to get rid of a keyhandler.
-    
+
     // Undo changes
     console.log('resetting layout');
     $('#firstField').off('keypress');
