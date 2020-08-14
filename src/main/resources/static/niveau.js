@@ -7,7 +7,7 @@ function setTitle() {
 }
 
 // register listener for enter pressed (solution input field)
-function registerHandlers() {
+function registerUserEntryHandlers() {
 
     // register same callback for enter on textfield
     $('#firstField').keypress(function (event) {
@@ -92,6 +92,14 @@ async function revealSolution() {
     // re-assign button and keycode handlers
     $('#primaryButton').unbind('click');
     $('#secondaryButton').unbind('click');
+
+    // rebind enter key, so that it emulates a click on "next"
+    $(document).keydown(function (event) { // <---  most reliable way to register key listeners.
+        let keycode = (event.keyCode ? event.keyCode : event.which);
+        if (keycode == '13') {
+            $('#primaryButton').click();
+        }
+    });
 
     let level = getUrlParameter('level') - 1;
     let cardsRemaining = await amountCardsRemainingAfterThis();
@@ -191,6 +199,10 @@ function getUrlParameter(sParam) {
     }
 }
 
+/**
+ * Displays the native language information of a card.
+ * @returns {Promise<void>}
+ */
 async function loadCard() {
 
     // Look up current niveau
@@ -205,7 +217,6 @@ async function loadCard() {
     $('#secondField').val(currentcard['german']);
     $('#firstField').focus();
     $('#secondField').prop('disabled', true);
-
 }
 
 async function animateShake() {
@@ -258,6 +269,10 @@ async function postCardUpdate(card) {
  */
 function resetLayout() {
 
+    //ToDo: get rid of enter key registration on document.
+    //clean slate - remove all keyevents / clickevents
+    $(document).unbind(); // <-- literally the only reliable way to get rid of a keyhandler.
+    
     // Undo changes
     console.log('resetting layout');
     $('#firstField').off('keypress');
@@ -267,7 +282,7 @@ function resetLayout() {
     $(document).off('keypress');
 
     // Set as it was before
-    registerHandlers();
+    registerUserEntryHandlers();
     $('#firstField').prop('disabled', false);
     $('#primaryButton').text('Validate');
     $('#secondaryButton').text('Edit');
