@@ -166,6 +166,27 @@ spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3333/polyglot
 mvn spring-boot:run
 ```
 
+## Multi-deploy
+
+At the current stage Polyglot does not yet support multiple users or language profiles. The temporary workaround is to simply deploy multiple instances of Polyglot.  
+The following changes are required to power up a second instance:
+
+ * ```docker-compose.yml```:  
+bash
+```
+02: database      		=> databasealt
+07: - "3333:3306"		=> - "3334:3306"
+08: restapi       		=> restapialt
+13: - "8444:8080" 		=> - "8445:8080"
+15: - databaseru  	       	=> databasealt
+18: - WAIT_HOSTS=database:3306 	=> - WAIT_HOSTS=databasealt:3306
+```
+
+ * ```src/main/resources/application.properties```:  
+```bash
+05: spring.datasource.url=jdbc:mysql://database:3306/polyglot => spring.datasource.url=jdbc:mysql://databasealt:3306/polyglot
+```
+
 ## Contact / Pull Requests
 
  * Author: Maximilian Schiedermeier ![email](documentation/email.png)
