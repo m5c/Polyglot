@@ -172,8 +172,7 @@ At the current stage Polyglot does not yet support multiple users or language pr
 The following changes are required to power up a second instance:
 
  * ```docker-compose.yml```:  
-bash
-```
+```bash
 02: database      		=> databasealt
 07: - "3333:3306"		=> - "3334:3306"
 08: restapi       		=> restapialt
