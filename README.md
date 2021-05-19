@@ -200,4 +200,4 @@ GRANT ALL PRIVILEGES ON polyglotalt.* TO 'polyglot'@'172.%';
  * Author: Maximilian Schiedermeier ![email](documentation/email.png)
  * Github: Kartoffelquadrat
  * Webpage: https://www.cs.mcgill.ca/~mschie3
- * License: [MIT](https://opensource.org/licenses/MIT)
+ * [License](LICENSE): [MIT](https://opensource.org/licenses/MIT)
