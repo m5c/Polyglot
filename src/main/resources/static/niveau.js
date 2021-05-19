@@ -244,11 +244,6 @@ function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function getData(url) {
-    const response = await fetch(url);
-    return response.json()
-}
-
 async function postCardUpdate(card) {
     const headers = new Headers();
     const body = JSON.stringify(card)

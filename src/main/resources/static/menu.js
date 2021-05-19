@@ -1,8 +1,8 @@
 /**
- * registers the keys for the main menu options, with excpetion to the 1-5 keys for the individual boxes, for they depend on the actual fillstate.
+ * registers the keys for the main menu options, with exception to the 1-5 keys for the individual boxes, for they depend on the actual fillstate.
  * @returns {Promise<void>}
  */
-async function resetKeysAndUi() {
+function resetKeysAndUi() {
 
     //clean slate - remove all keyevents / clickevents
     $(document).unbind(); // <-- literally the only reliable way to get rid of a keyhandler.
@@ -11,7 +11,7 @@ async function resetKeysAndUi() {
     $('#export').on('click', exportAllCards);
 
     // simulate import click on "i"-key
-    $(document).keyup(async function (e) {
+    $(document).keyup(function (e) {
         if (e.key === "i") {
             console.log("i pressed");
             $('#import-file').click();
@@ -23,16 +23,16 @@ async function resetKeysAndUi() {
 
 
     // register key listener for export as json
-    $(document).keyup(async function (e) {
+    $(document).keyup(function (e) {
         if (e.key === "e") {
-            await exportAllCards();
+            exportAllCards();
         }
     });
 
     // register key listener for "database reset" (d key). - developer option.
-    $(document).keyup(async function (e) {
+    $(document).keyup(function (e) {
         if (e.key === "d") {
-            await resetDatabase();
+            resetDatabase();
         }
     });
 
@@ -43,80 +43,88 @@ async function resetKeysAndUi() {
         }
     });
 
-    await showFillState();
+    showFillState();
 }
 
 /**
  * query fills tate per box from api, update enabled/disabled UI visualization, enable/disable click and key based access.
  * @returns {Promise<void>}
  */
-async function showFillState() {
+ function showFillState() {
 
-    const fillState = await getData('/polyglot/api/');
+    fetch('/polyglot/api/')
+        .then(result => result.json())
+        .then(json => {
+            if (json.error) // assumes that the server is nice enough to send an error message
+                throw Error(json.error);
+            else {
 
-    $('#niveau0').text("Niveau [1]  (" + fillState[0] + ")");
-    if (fillState[0] == 0) {
-        $('#niveau0').addClass("disabled");
-    } else {
-        // enable that box
-        $('#niveau0').removeClass("disabled");
-        $(document).keyup(function (e) {
-            if (e.key === "1") {
-                window.location.href = "/polyglot/niveau.html?level=1";
+                // Update fillstate text in UI for all boxes.
+
+                $('#niveau0').text("Niveau [1]  (" + fillState[0] + ")");
+                if (fillState[0] == 0) {
+                    $('#niveau0').addClass("disabled");
+                } else {
+                    // enable that box
+                    $('#niveau0').removeClass("disabled");
+                    $(document).keyup(function (e) {
+                        if (e.key === "1") {
+                            window.location.href = "/polyglot/niveau.html?level=1";
+                        }
+                    });
+                }
+                $('#niveau1').text("Niveau [2]  (" + fillState[1] + ")");
+                if (fillState[1] == 0) {
+                    $('#niveau1').addClass("disabled");
+                } else {
+                    $('#niveau1').removeClass("disabled");
+                    $(document).keyup(function (e) {
+                        if (e.key === "2") {
+                            window.location.href = "/polyglot/niveau.html?level=2";
+                        }
+                    });
+                }
+                $('#niveau2').text("Niveau [3]  (" + fillState[2] + ")");
+                if (fillState[2] == 0) {
+                    $('#niveau2').addClass("disabled");
+                } else {
+                    $('#niveau2').removeClass("disabled");
+                    $(document).keyup(function (e) {
+                        if (e.key === "3") {
+                            window.location.href = "/polyglot/niveau.html?level=3";
+                        }
+                    });
+                }
+                $('#niveau3').text("Niveau [4]  (" + fillState[3] + ")");
+                if (fillState[3] == 0) {
+                    $('#niveau3').addClass("disabled");
+                } else {
+                    $('#niveau3').removeClass("disabled");
+                    $(document).keyup(function (e) {
+                        if (e.key === "4") {
+                            window.location.href = "/polyglot/niveau.html?level=4";
+                        }
+                    });
+                }
+                $('#niveau4').text("Niveau [5]  (" + fillState[4] + ")");
+                if (fillState[4] == 0) {
+                    $('#niveau4').addClass("disabled");
+                } else {
+                    $('#niveau4').removeClass("disabled");
+                    $(document).keyup(function (e) {
+                        if (e.key === "5") {
+                            window.location.href = "/polyglot/niveau.html?level=5";
+                        }
+                    });
+                }
+
             }
+        })
+        .catch(error => {
+            // error handling here
+            console.log(error);
         });
-    }
-    $('#niveau1').text("Niveau [2]  (" + fillState[1] + ")");
-    if (fillState[1] == 0) {
-        $('#niveau1').addClass("disabled");
-    } else {
-        $('#niveau1').removeClass("disabled");
-        $(document).keyup(function (e) {
-            if (e.key === "2") {
-                window.location.href = "/polyglot/niveau.html?level=2";
-            }
-        });
-    }
-    $('#niveau2').text("Niveau [3]  (" + fillState[2] + ")");
-    if (fillState[2] == 0) {
-        $('#niveau2').addClass("disabled");
-    } else {
-        $('#niveau2').removeClass("disabled");
-        $(document).keyup(function (e) {
-            if (e.key === "3") {
-                window.location.href = "/polyglot/niveau.html?level=3";
-            }
-        });
-    }
-    $('#niveau3').text("Niveau [4]  (" + fillState[3] + ")");
-    if (fillState[3] == 0) {
-        $('#niveau3').addClass("disabled");
-    } else {
-        $('#niveau3').removeClass("disabled");
-        $(document).keyup(function (e) {
-            if (e.key === "4") {
-                window.location.href = "/polyglot/niveau.html?level=4";
-            }
-        });
-    }
-    $('#niveau4').text("Niveau [5]  (" + fillState[4] + ")");
-    if (fillState[4] == 0) {
-        $('#niveau4').addClass("disabled");
-    } else {
-        $('#niveau4').removeClass("disabled");
-        $(document).keyup(function (e) {
-            if (e.key === "5") {
-                window.location.href = "/polyglot/niveau.html?level=5";
-            }
-        });
-    }
 }
-
-async function getData(url) {
-    const response = await fetch(url);
-    return response.json()
-}
-
 
 /**
  * reads out content of selected file (import context menu.)
@@ -143,17 +151,28 @@ async function handleFileLoad(event) {
 
 }
 
-async function exportAllCards() {
-    let allCardsJson = await getData('api/cards/');
+function exportAllCards() {
+    fetch('api/cards/')
+        .then(result => result.json())
+        .then(json => {
+            if (json.error) // assumes that the server is nice enough to send an error message with a field "error", in case something goes wrong
+                throw Error(json.error);
+            else {
 
-    // remove the database card id entry fpr every card in array.
-    for (let i = 0; i < allCardsJson.length; i++) {
-        delete allCardsJson[i].id;
-        delete allCardsJson[i].box;
-    }
+                // remove the database card id entry fpr every card in array.
+                for (let i = 0; i < json.length; i++) {
+                    delete json[i].id;
+                    delete json[i].box;
+                }
 
-    // actually trigger download as a text file
-    download(getDateTimeString() + '.pglt', JSON.stringify(allCardsJson));
+                // actually trigger download as a text file
+                download(getDateTimeString() + '.pglt', JSON.stringify(json));
+            }
+        })
+        .catch(error => {
+            // error handling here
+            console.log(error);
+        });
 }
 
 /**
@@ -208,7 +227,7 @@ function getDateTimeString() {
 }
 
 // hidden developer option. D key resets the DB.
-async function resetDatabase() {
+function resetDatabase() {
     const init = {
         method: 'DELETE'
     };
@@ -224,8 +243,9 @@ async function resetDatabase() {
             // error in e.message
         });
 
-    await sleep(300);
+    setTimeout(function () {
+        resetKeysAndUi();
+        showFillState();
+    }, 300);
 
-    // update view (fill meter)
-    await resetKeysAndUi();
 }

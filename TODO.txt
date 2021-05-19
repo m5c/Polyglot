@@ -1,0 +1,22 @@
+Get rif of async function definitions. Replace by promise-delegated UI update calls:
+
+./niveau.js:32:async function validateUserResponse() {
+./niveau.js:50:async function acceptAnswer() {
+./niveau.js:65:async function rejectAnswer() {
+./niveau.js:83:async function revealSolution() {
+./niveau.js:139:async function amountCardsRemainingAfterThis() {
+./niveau.js:206:async function loadCard() {
+./niveau.js:230:async function animateShake() {
+./niveau.js:237:async function animateReplace() {
+./niveau.js:247:async function getData(url) {
+./niveau.js:252:async function postCardUpdate(card) {
+./menu.js:5:async function resetKeysAndUi() {
+./menu.js:14:    $(document).keyup(async function (e) {
+./menu.js:26:    $(document).keyup(async function (e) {
+./menu.js:33:    $(document).keyup(async function (e) {
+./menu.js:53:async function showFillState() {
+./menu.js:115:async function getData(url) {
+./menu.js:135:async function handleFileLoad(event) {
+./menu.js:146:async function exportAllCards() {
+./menu.js:211:async function resetDatabase() {
+

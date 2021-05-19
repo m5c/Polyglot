@@ -95,10 +95,10 @@ function wrapAsArray(card)
  * @param card
  * @returns {Promise<void>}
  */
-async function postCards(cardArray)
+function postCards(cardArray)
 {
     const headers = new Headers();
-    body = JSON.stringify(cardArray);
+    let body = JSON.stringify(cardArray);
     console.log(body);
     headers.append('Content-Type', 'application/json');
 
@@ -110,7 +110,7 @@ async function postCards(cardArray)
 
     fetch('/polyglot/api/cards', init)
         .then((response) => {
-            return response.json(); // or .text() or .blob() ...
+            return response.json();
         })
         .then((text) => {
             // text is the response body
