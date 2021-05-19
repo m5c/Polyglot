@@ -14,7 +14,7 @@ RUN chmod +x /wait
 
 # copy the jar from the build stage, expose the required port and run it.
 COPY --from=build /usr/src/app/target/polyglot-0.1.0.jar /usr/app/polyglot-0.1.0.jar
-EXPOSE 8080
+EXPOSE 8444
 #ENTRYPOINT ["java","-jar","polyglot-0.1.0.jar"]
 
 # allow debug if startup fails, with: docker run -it --entrypoint /bin/bash polyglot -s

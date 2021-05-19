@@ -10,7 +10,7 @@ services:
       context: .
       dockerfile: Dockerfile-rest
     ports:
-      - "8444:8080"
+      - "8444:8444"
     depends_on:
       - database
     command: sh -c "/wait && java -jar /usr/app/polyglot-0.1.0.jar"
