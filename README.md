@@ -171,6 +171,15 @@ mvn spring-boot:run
 At the current stage Polyglot does not yet support multiple users or language profiles. The temporary workaround is to simply deploy multiple instances of Polyglot.  
 The following changes are required to power up a second instance:
 
+```bash
+mysql -h 127.0.0.1 -P 3333 --protocol=tcp -u polyglot -ploh8eeTooj0i
+```
+
+```sql
+CREATE DATABASE polyglotalt;
+GRANT ALL PRIVILEGES ON polyglotalt.* TO 'polyglot'@'172.%';
+```
+
  * ```docker-compose.yml```:  
 ```bash
 02: database      		=> databasealt
