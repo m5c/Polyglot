@@ -60,6 +60,7 @@ function resetKeysAndUi() {
             else {
 
                 // Update fillstate text in UI for all boxes.
+                let fillState = json;
 
                 $('#niveau0').text("Niveau [1]  (" + fillState[0] + ")");
                 if (fillState[0] == 0) {
