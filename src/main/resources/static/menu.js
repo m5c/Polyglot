@@ -50,7 +50,7 @@ function resetKeysAndUi() {
  * query fills tate per box from api, update enabled/disabled UI visualization, enable/disable click and key based access.
  * @returns {Promise<void>}
  */
- function showFillState() {
+function showFillState() {
 
     fetch('/polyglot/api/')
         .then(result => result.json())
@@ -139,17 +139,19 @@ function handleFileSelect(event) {
 
 /**
  * extract content of uploaded file, send to backend.
+ * Result is a PROMISE.
  * @param event
  */
-async function handleFileLoad(event) {
+function handleFileLoad(event) {
     const content = event.target.result;
     const contentAsJsonArray = JSON.parse(content);
-    await postCards(contentAsJsonArray);
+    postCards(contentAsJsonArray).then(() => {
 
-    // finally update the fill-state of the boxes (has changed due to import)
-    await sleep(300);
-    await resetKeysAndUi();
-
+        // finally update the fill-state of the boxes (has changed due to import)
+        sleep(300).then(() => {
+            resetKeysAndUi();
+        });
+    });
 }
 
 function exportAllCards() {

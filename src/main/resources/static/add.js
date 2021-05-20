@@ -14,7 +14,7 @@ function registerAddHandler() {
         if (keycode == '13') {
             // if empty, just reject
             if ($.trim($('#secondField').val()) == '') {
-                shake();
+                animateShake();
             }
             // if not empty, set focus on other field
             else
@@ -49,31 +49,21 @@ async function addCard() {
     // Actually build a json for the new card and send REST query to API.
     let card = {"french":$('#firstField').val(),"german":$('#secondField').val()};
     let wrapperArray = wrapAsArray(card);
-    await postCards(wrapperArray);
-    console.log(card);
+    postCards(wrapperArray).then(() => {
+        console.log(card);
 
-    //provide visual feedback for success
-    puff();
+        //provide visual feedback for success
+        animatePuff();
 
-    //clear the fields
-    $('#firstField').val('');
-    $('#secondField').val('');
+        //clear the fields
+        $('#firstField').val('');
+        $('#secondField').val('');
 
-    //focus first field again
-    $('#secondField').focus();
+        //focus first field again
+        $('#secondField').focus();
+    });
 }
 
-async function shake() {
-    $('#card').addClass("shake-horizontal");
-    await sleep(800);
-    $('#card').removeClass("shake-horizontal");
-}
-
-async function puff() {
-    $('#card').addClass("puff-in-center");
-    await sleep(300);
-    $('#card').removeClass("puff-in-center");
-}
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
@@ -108,7 +98,7 @@ function postCards(cardArray)
         body
     };
 
-    fetch('/polyglot/api/cards', init)
+    return fetch('/polyglot/api/cards', init)
         .then((response) => {
             return response.json();
         })

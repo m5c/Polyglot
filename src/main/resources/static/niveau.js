@@ -29,7 +29,7 @@ function registerUserEntryHandlers() {
 }
 
 // triggered when enter is pressed.
-async function validateUserResponse() {
+function validateUserResponse() {
 
     console.log('VALIADATION');
 
@@ -47,40 +47,42 @@ async function validateUserResponse() {
 /**
  * called if the right answer was provided, or the error popup was overridden.
  */
-async function acceptAnswer() {
+function acceptAnswer() {
     // if this was the last card, don't replace it (must be done on client side, to avoid Async DB inconsistencies.)
-    cardsRemaining = await amountCardsRemainingAfterThis();
+    lookupCardsRemainingInCurrentLevel()
+        .then(cardsRemaining => {
+            rankUpCard();
 
-    rankUpCard();
-
-    /// only load another card, if there are still cards left.
-    if (cardsRemaining == 0)
-        window.location.href = "/polyglot/";
-    else {
-        animateReplace();
-        loadCard();
-    }
+            /// only load another card, if there are still cards left.
+            if (cardsRemaining == 0)
+                window.location.href = "/polyglot/";
+            else {
+                animateReplace();
+                loadCard();
+            }
+        });
 }
 
-async function rejectAnswer() {
+function rejectAnswer() {
     // if this was the last card, don't replace it (must be done on client side, to avoid Async DB inconsistencies.)
-    cardsRemaining = amountCardsRemainingAfterThis();
+    lookupCardsRemainingInCurrentLevel()
+        .then(cardsRemaining => {
+            rankDownCard();
 
-    rankDownCard();
-
-    /// only load another card, if there are still cards left.
-    if (cardsRemaining == 0)
-        window.location.href = "/polyglot/";
-    else {
-        animateReplace();
-        loadCard();
-    }
+            /// only load another card, if there are still cards left.
+            if (cardsRemaining == 0)
+                window.location.href = "/polyglot/";
+            else {
+                animateReplace();
+                loadCard();
+            }
+        });
 }
 
 /**
  * Modifies layout if wrong answer was provided.
  */
-async function revealSolution() {
+function revealSolution() {
 
     // Update UI elements
     $('#firstField').val(currentcard['french']);
@@ -102,50 +104,58 @@ async function revealSolution() {
     });
 
     let level = getUrlParameter('level') - 1;
-    let cardsRemaining = await amountCardsRemainingAfterThis();
 
-    // Continue while there are cards remaining or ( the level is 0 + the card was flagged as false)
-    if (cardsRemaining > 0 || level == 0) {
-        // if next was clicked, rank-down card, proceed to next card
-        $('#primaryButton').on('click', function () {
-            rejectAnswer();
-            resetLayout();
-        });
-    } else {
-        // if next was clicked, rank-down card, go back to menu
-        $('#primaryButton').on('click', function () {
-            rankDownCard();
-            window.location.href = "/polyglot/";
-        });
-    }
+    lookupCardsRemainingInCurrentLevel()
+        .then(cardsRemaining => {
+            // Continue while there are cards remaining or ( the level is 0 + the card was flagged as false)
+            if (cardsRemaining > 0 || level == 0) {
+                // if next was clicked, rank-down card, proceed to next card
+                $('#primaryButton').on('click', function () {
+                    rejectAnswer();
+                    resetLayout();
+                });
+            } else {
+                // if next was clicked, rank-down card, go back to menu
+                $('#primaryButton').on('click', function () {
+                    rankDownCard();
+                    window.location.href = "/polyglot/";
+                });
+            }
 
-
-    if (cardsRemaining > 0) {
-        // if override was clicked. Treat card as if that would have been the right answer, proceed to next card
-        $('#secondaryButton').on('click', function () {
-            acceptAnswer();
-            resetLayout();
+            if (cardsRemaining > 0) {
+                // if override was clicked. Treat card as if that would have been the right answer, proceed to next card
+                $('#secondaryButton').on('click', function () {
+                    acceptAnswer();
+                    resetLayout();
+                });
+            } else {
+                // no cards remaining (the last one just disappeared): rank up card and go back to menu.
+                $('#secondaryButton').on('click', function () {
+                    acceptAnswer();
+                    //window.location.href = "/polyglot/";
+                });
+            }
         });
-    } else {
-        // no cards remaining (the last one just disappeared): rank up card and go back to menu.
-        $('#secondaryButton').on('click', function () {
-            acceptAnswer();
-            //window.location.href = "/polyglot/";
-        });
-    }
 }
 
-
-async function amountCardsRemainingAfterThis() {
+/** Returns amount of cards remaining (based on level as specified in URL) as a PROMISE. */
+function lookupCardsRemainingInCurrentLevel() {
     // Look up current niveau
     let level = getUrlParameter('level') - 1;
 
     // verify there are cards remaining for this level
-    const fillState = await getData('/polyglot/api/');
-    let cardsRemaining = fillState[level] - 1;
+    return fetch('/polyglot/api/')
+        .then(result => result.json())
+        .then(json => {
+            if (json.error) // assumes that the server is nice enough to send an error message with a field "error", in case something goes wrong
+                throw Error(json.error);
+            else {
+                let cardsRemaining = json[level] - 1;
 
-    console.log('Cards remaining: ' + cardsRemaining);
-    return cardsRemaining;
+                console.log('Cards remaining: ' + cardsRemaining);
+                return cardsRemaining;
+            }
+        })
 }
 
 /**
@@ -203,7 +213,7 @@ function getUrlParameter(sParam) {
  * Displays the native language information of a card.
  * @returns {Promise<void>}
  */
-async function loadCard() {
+function loadCard() {
 
     // remember previous card, if existent
     let previouscard = currentcard;
@@ -212,39 +222,35 @@ async function loadCard() {
     let level = getUrlParameter('level') - 1;
 
     // load a random card
-    currentcard = await getData('/polyglot/api/cards/random?level=' + level);
-    console.log(currentcard);
+    fetch('/polyglot/api/cards/random?level=' + level)
+        .then(result => result.json())
+        .then(json => {
+            if (json.error) // assumes that the server is nice enough to send an error message with a field "error", in case something goes wrong
+                throw Error(json.error);
+            else {
+                currentcard = json;
+                console.log(currentcard);
 
-    // get another card in case the DBs lazy loading lead to a phantom card (same card can not come twice, with exception to first box)
-    if(previouscard != null && previouscard === currentcard) {
-        loadCard();
-        return;
-    }
-    // display the german part, focus on the french part, disable editing of the german part
-    $('#firstField').val('');
-    $('#secondField').val(currentcard['german']);
-    $('#firstField').focus();
-    $('#secondField').prop('disabled', true);
-}
+                // get another card in case the DBs lazy loading lead to a phantom card (same card can not come twice, with exception to first box)
+                if (previouscard != null && previouscard === currentcard) {
+                    loadCard();
+                    return;
+                }
+                // display the german part, focus on the french part, disable editing of the german part
+                $('#firstField').val('');
+                $('#secondField').val(currentcard['german']);
+                $('#firstField').focus();
+                $('#secondField').prop('disabled', true);
 
-async function animateShake() {
-    $('#card').addClass("shake-horizontal");
-
-    await sleep(800);
-    $('#card').removeClass("shake-horizontal");
-}
-
-async function animateReplace() {
-    $('#card').addClass("flip-in-hor-bottom");
-    await sleep(800);
-    $('#card').removeClass("flip-in-hor-bottom");
+            }
+        });
 }
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
 }
 
-async function postCardUpdate(card) {
+function postCardUpdate(card) {
     const headers = new Headers();
     const body = JSON.stringify(card)
     headers.append('Content-Type', 'application/json');
