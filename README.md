@@ -34,6 +34,8 @@ git clone https://github.com/kartoffelquadrat/Polyglot.git
 cd Polyglot
 ```
 
+ > Don't forget to change the default DB password in the ```*.sql``` scripts and ```*.properties``` files.
+
 ### Docker
 
  * Build and deploy the containters:  
