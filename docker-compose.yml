@@ -1,11 +1,13 @@
 services:
   database:
+    container_name: PolyglotDB
     build:
       context: .
       dockerfile: Dockerfile-db
     ports:
       - "3333:3306"
-  restapi:
+  webservice:
+    container_name: Polyglot
     build:
       context: .
       dockerfile: Dockerfile-rest
