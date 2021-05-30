@@ -8,7 +8,7 @@ Details for the various application layers:
 
 The frontend consists of the following pages and functionality:
 
-![ui](documentation/ui.png)
+![ui](ui.png)
 
  * Landing page
    * 5 buttons to select the desired difficulty (implicitly shows current fill state)
