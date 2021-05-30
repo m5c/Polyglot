@@ -13,6 +13,7 @@
     <version>0.1.0</version>
     <name>polyglot</name>
     <description>Full stack vocabulary webapp</description>
+    <packaging>${packaging.type}</packaging>
 
     <properties>
         <java.version>1.8</java.version>
@@ -58,7 +59,8 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <fork>true</fork>
-                    <mainClass>eu.kartoffelquadrat.polyglot.Polyglot</mainClass>
+                    <!-- Launcher class differs depending on build mode (war / self contained spring-boot app-->
+                    <mainClass>${polyglot.launcher}</mainClass>
                 </configuration>
                 <executions>
                     <execution>
@@ -69,6 +71,39 @@
                 </executions>
             </plugin>
         </plugins>
+        <finalName>${artifactId}</finalName>
     </build>
+
+    <profiles>
+        <!--dev profile is intended for native deployment of LS.-->
+        <profile>
+            <id>war</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <properties>
+                <activatedProperties>war</activatedProperties>
+                <packaging.type>war</packaging.type>
+                <polyglot.launcher>eu.kartoffelquadrat.polyglot.PolyglotWar</polyglot.launcher>
+            </properties>
+            <dependencies>
+                <!-- Build to WAR has extra tomcat dependency-->
+                <dependency>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                    <scope>provided</scope>
+                </dependency>
+            </dependencies>
+        </profile>
+        <!--prod profile is intended for dockerized deployment of LS.-->
+        <profile>
+            <id>docker</id>
+            <properties>
+                <activatedProperties>docker</activatedProperties>
+                <packaging.type>jar</packaging.type>
+                <polyglot.launcher>eu.kartoffelquadrat.polyglot.PolyglotBoot</polyglot.launcher>
+            </properties>
+        </profile>
+    </profiles>
 
 </project>

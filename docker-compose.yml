@@ -15,7 +15,7 @@ services:
       - "8444:8444"
     depends_on:
       - database
-    command: sh -c "/wait && java -jar /usr/app/polyglot-0.1.0.jar"
+    command: sh -c "/wait && java -jar /usr/app/polyglot.jar"
     environment:
       - WAIT_HOSTS=database:3306
       - WAIT_HOSTS_TIMEOUT=300

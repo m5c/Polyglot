@@ -2,7 +2,7 @@ FROM maven:3.6-jdk-13 AS build
 MAINTAINER maximilian schiedermeier
 COPY src /usr/src/app/src
 COPY pom.xml /usr/src/app
-RUN mvn -f /usr/src/app/pom.xml clean package
+RUN mvn -f /usr/src/app/pom.xml clean package -Pdocker
 
 ## Discard Maven, run JAR file using JRE
 FROM openjdk:8-jre-alpine
@@ -13,7 +13,7 @@ ADD https://github.com/ufoscout/docker-compose-wait/releases/download/$WAIT_VERS
 RUN chmod +x /wait
 
 # copy the jar from the build stage, expose the required port and run it.
-COPY --from=build /usr/src/app/target/polyglot-0.1.0.jar /usr/app/polyglot-0.1.0.jar
+COPY --from=build /usr/src/app/target/polyglot.jar /usr/app/polyglot.jar
 EXPOSE 8444
 
 # allow debug if startup fails, with: docker run -it --entrypoint /bin/bash polyglot -s
