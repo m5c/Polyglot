@@ -39,7 +39,7 @@ This section describes the server-side REST API.
 
 The REST resources are arranged as indicated in the RIF model below. Some resources support optional parameters.
 
-![rif](documentation/polyglot-rif.png)
+![rif](polyglot-rif.png)
 
  > **Note:** ```/api``` is common prequel to all REST calls, for clear distinction to web-ui URIs.
 
