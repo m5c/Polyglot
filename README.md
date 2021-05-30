@@ -1,16 +1,17 @@
 # Polyglot
 
-A browser based vocabulary trainer.
-
-![polyglot](documentation/ui.png)
+A browser based vocabulary trainer app.
 
 ## About
 
-*Polyglot* is a full stack web application that provides an easy-to-use vocabulary trainer.
+*Polyglot* is a full stack web application that provides an easy-to-use vocabulary trainer.  
+The three provided layers are:
 
- * Reponsice Web-Interface (Javascript / Bootstrap)
+ * Responsive Web-Interface (Javascript / Bootstrap)
  * Spring-Boot REST-API
  * mySQL data persistence
+
+![polyglot](documentation/ui.png)
 
 ## Tutorial
 
@@ -25,7 +26,7 @@ More details on the [Polyglot internals here](documentation/API.md)!
 There are two ways to get Polyglot running: Docker based setup and native setup.
 
  * [Docker](#docker) is easier to install, but required more resources. Database and Webservice are deployed as individual containers.
- * Native setup integrates into an existing mysql and tomcat installation and therefore consumes fewer resources.
+ * [Native](#native) setup integrates into an existing mysql and tomcat installation and therefore consumes fewer resources.
 
 Either way, first step is to clone this repository:  
 ```bash
