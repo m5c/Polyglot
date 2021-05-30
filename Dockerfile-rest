@@ -5,7 +5,7 @@ COPY pom.xml /usr/src/app
 RUN mvn -f /usr/src/app/pom.xml clean package
 
 ## Discard Maven, run JAR file using JRE
-FROM openjdk:8-jre-alpine AS polyglot_restapi_manual
+FROM openjdk:8-jre-alpine
 
 ## Wait for SQL to be ready
 ENV WAIT_VERSION 2.7.2
@@ -15,8 +15,6 @@ RUN chmod +x /wait
 # copy the jar from the build stage, expose the required port and run it.
 COPY --from=build /usr/src/app/target/polyglot-0.1.0.jar /usr/app/polyglot-0.1.0.jar
 EXPOSE 8444
-#ENTRYPOINT ["java","-jar","polyglot-0.1.0.jar"]
 
 # allow debug if startup fails, with: docker run -it --entrypoint /bin/bash polyglot -s
-#RUN apk add --no-cache bash coreutils grep sed
-RUN java -jar /usr/app/polyglot-0.1.0.jar
+RUN apk add --no-cache bash coreutils grep sed
