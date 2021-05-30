@@ -1,14 +1,4 @@
-# Polyglot
-
-A browser based vocabulary trainer.
-
-## About
-
-*Polyglot* is a full stack web application.
-
- * User interface as responsive Javascript / Bootstrap webapp.
- * Server side logic as a Spring-Boot REST backend, hosted in a docker container.
- * Data persistence in a mySQL database, hosted in a docker container.
+# API
 
 ## Layers
 
@@ -131,73 +121,3 @@ mysql> SELECT * FROM card;
 | 17 |   2 | impasse (f)                | sackgasse (f)           |
 +----+-----+----------------------------+-------------------------+
 ```
-## Deployment
-
- * Clone this repo:  
-```bash
-git clone https://kartoffelquadrat.eu:5050/maex/Polyglot.git
-cd Polyglot
-```
-
-### Composed deployment
-
- * Deploy the application with docker compose:  
-```bash
-docker-compose up
-```
-
- * Open a browser, [access the web-client](http://localhost:8444/polyglot)
-
-### Individual deployment
-
- * Build and deploy only the DB:  
-```bash
-	docker build -t polyglot-db . -f Dockerfile-db
-docker run --name polyglot-db -p 3333:3306 polyglot-db
-```
-
- * Update the connection settings in ```application.properties```:  
-```properties
-spring.datasource.url=jdbc:mysql://${MYSQL_HOST:localhost}:3333/polyglot
-```
-
- * Run the REST back-end:  
-```bash
-mvn spring-boot:run
-```
-
-## Multi-deploy
-
-At the current stage Polyglot does not yet support multiple users or language profiles. The temporary workaround is to simply deploy multiple instances of Polyglot.  
-The following changes are required to power up a second instance:
-
-```bash
-mysql -h 127.0.0.1 -P 3333 --protocol=tcp -u polyglot -ploh8eeTooj0i
-```
-
-```sql
-CREATE DATABASE polyglotalt;
-GRANT ALL PRIVILEGES ON polyglotalt.* TO 'polyglot'@'172.%';
-```
-
- * ```docker-compose.yml```:  
-```bash
-02: database      		=> databasealt
-07: - "3333:3306"		=> - "3334:3306"
-08: restapi       		=> restapialt
-13: - "8444:8080" 		=> - "8445:8080"
-15: - databaseru  	       	=> databasealt
-18: - WAIT_HOSTS=database:3306 	=> - WAIT_HOSTS=databasealt:3306
-```
-
- * ```src/main/resources/application.properties```:  
-```bash
-05: spring.datasource.url=jdbc:mysql://database:3306/polyglot => spring.datasource.url=jdbc:mysql://databasealt:3306/polyglot
-```
-
-## Contact / Pull Requests
-
- * Author: Maximilian Schiedermeier ![email](documentation/email.png)
- * Github: Kartoffelquadrat
- * Webpage: https://www.cs.mcgill.ca/~mschie3
- * [License](LICENSE): [MIT](https://opensource.org/licenses/MIT)
