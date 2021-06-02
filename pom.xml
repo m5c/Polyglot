@@ -75,7 +75,7 @@
     </build>
 
     <profiles>
-        <!--war profile is intended for native deployment of LS.-->
+        <!--war profile is intended for native deployment of polyglot.-->
         <profile>
             <id>war</id>
             <activation>
@@ -101,7 +101,7 @@
 	        </dependency>
             </dependencies>
         </profile>
-        <!--prod profile is intended for dockerized deployment of LS.-->
+        <!--prod profile is intended for dockerized deployment of polyglot.-->
         <profile>
             <id>docker</id>
             <properties>
