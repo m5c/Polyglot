@@ -75,7 +75,7 @@
     </build>
 
     <profiles>
-        <!--dev profile is intended for native deployment of LS.-->
+        <!--war profile is intended for native deployment of LS.-->
         <profile>
             <id>war</id>
             <activation>
@@ -93,7 +93,7 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                     <scope>provided</scope>
                 </dependency>
-		<!-- war dpeloyment connects to local mysql DB. Extra connector dependency -->
+		<!-- war deployment connects to local mysql DB. Extra connector dependency -->
 	        <dependency>
 	            <groupId>mysql</groupId>
 	            <artifactId>mysql-connector-java</artifactId>
