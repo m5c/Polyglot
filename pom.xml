@@ -93,6 +93,12 @@
                     <artifactId>spring-boot-starter-tomcat</artifactId>
                     <scope>provided</scope>
                 </dependency>
+		<!-- war dpeloyment connects to local mysql DB. Extra connector dependency -->
+	        <dependency>
+	            <groupId>mysql</groupId>
+	            <artifactId>mysql-connector-java</artifactId>
+	            <version>8.0.25</version>
+	        </dependency>
             </dependencies>
         </profile>
         <!--prod profile is intended for dockerized deployment of LS.-->
