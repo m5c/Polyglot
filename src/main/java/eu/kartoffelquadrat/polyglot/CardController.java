@@ -10,7 +10,7 @@ import java.util.*;
 /**
  * REST controller for the Polyglot backend. All REST entry points around cards are defined here.
  *
- * @Author Maximilian Schiedermeier, Github: kartoffelquadrat
+ * @Author Maximilian Schiedermeier, Github: m5c
  */
 @RestController
 @RequestMapping
@@ -173,7 +173,7 @@ public class CardController {
     private int randomListElement(List<Integer> list) {
 
         if(list.isEmpty())
-            throw new RuntimeException("Cannot retreive random element of empty list!");
+            throw new RuntimeException("Cannot retrieve random element of empty list!");
         return list.get(new Random().nextInt(list.size()));
     }
 
